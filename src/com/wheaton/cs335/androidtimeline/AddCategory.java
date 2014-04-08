@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-public class Add_category extends Activity {
+public class AddCategory extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

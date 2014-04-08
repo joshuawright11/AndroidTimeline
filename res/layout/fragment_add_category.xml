@@ -9,8 +9,63 @@
     tools:context="com.wheaton.cs335.androidtimeline.Add_category$PlaceholderFragment" >
 
     <TextView
+        android:id="@+id/addCategoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/addCategoryTitle"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/categoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addCategoryTitle"
+        android:layout_below="@+id/addCategoryTitle"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/categoryTitle" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/selectColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/categoryName"
+        android:layout_below="@+id/categoryName"
+        android:text="@string/selectColor"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/greenSelecter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/redSelecter" />
+
+    <SeekBar
+        android:id="@+id/blueSelecter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/greenSelecter" />
+
+    <SeekBar
+        android:id="@+id/redSelecter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/selectColor" />
+
+    <Button
+        android:id="@+id/addCategoryOK"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ok" />
 
 </RelativeLayout>

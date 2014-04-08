@@ -18,5 +18,7 @@
     <string name="categoryTitle">Category Title</string>
     <string name="selectColor">Select Color</string>
     <string name="ok">OK</string>
+    <string name="addEvent">Add Event</string>
+    <string name="addCategory">Add Category</string>
 
 </resources>

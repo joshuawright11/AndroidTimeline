@@ -25,18 +25,26 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int AddEvent=0x7f08000b;
-        public static final int DurationCheckBox=0x7f080003;
-        public static final int EventTitle=0x7f080002;
-        public static final int action_settings=0x7f08000a;
+        public static final int AddCategory=0x7f080013;
+        public static final int AddEvent=0x7f080012;
+        public static final int DurationCheckBox=0x7f08000a;
+        public static final int EventTitle=0x7f080009;
+        public static final int action_settings=0x7f080011;
+        public static final int addCategoryOK=0x7f080007;
+        public static final int addCategoryTitle=0x7f080001;
+        public static final int addEventOK=0x7f080010;
+        public static final int blueSelecter=0x7f080006;
+        public static final int categoryName=0x7f080002;
         public static final int container=0x7f080000;
-        public static final int datePicker1=0x7f080005;
-        public static final int datePicker2=0x7f080007;
-        public static final int eventDetails=0x7f080009;
-        public static final int firstDateLabel=0x7f080004;
-        public static final int newEventTitle=0x7f080001;
-        public static final int secondDateLabel=0x7f080006;
-        public static final int tempCategory=0x7f080008;
+        public static final int datePicker1=0x7f08000e;
+        public static final int datePicker2=0x7f08000c;
+        public static final int eventDetails=0x7f08000d;
+        public static final int greenSelecter=0x7f080004;
+        public static final int newEventTitle=0x7f080008;
+        public static final int redSelecter=0x7f080005;
+        public static final int selectColor=0x7f080003;
+        public static final int tempCategory=0x7f08000b;
+        public static final int textView2=0x7f08000f;
     }
     public static final class layout {
         public static final int activity_add_category=0x7f030000;
@@ -53,7 +61,9 @@ public final class R {
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
+        public static final int addCategory=0x7f050012;
         public static final int addCategoryTitle=0x7f05000d;
+        public static final int addEvent=0x7f050011;
         public static final int app_name=0x7f050000;
         public static final int categoryTitle=0x7f05000e;
         public static final int editCheckBox=0x7f050007;

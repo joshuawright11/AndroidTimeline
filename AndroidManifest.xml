@@ -27,7 +27,7 @@
             android:label="@string/title_activity_add_event" >
         </activity>
         <activity
-            android:name="com.wheaton.cs335.androidtimeline.Add_category"
+            android:name="com.wheaton.cs335.androidtimeline.AddCategory"
             android:label="@string/title_activity_add_category" >
         </activity>
     </application>

@@ -39,42 +39,9 @@
         android:text="@string/editCheckBox" />
 
     <TextView
-        android:id="@+id/firstDateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/DurationCheckBox"
-        android:layout_below="@+id/DurationCheckBox"
-        android:text="@string/firstDate"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <DatePicker
-        android:id="@+id/datePicker1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/DurationCheckBox"
-        android:layout_toRightOf="@+id/firstDateLabel" />
-
-    <TextView
-        android:id="@+id/secondDateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/firstDateLabel"
-        android:layout_below="@+id/firstDateLabel"
-        android:text="@string/secondDate"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <DatePicker
-        android:id="@+id/datePicker2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/datePicker1"
-        android:layout_toRightOf="@+id/newEventTitle" />
-
-    <TextView
         android:id="@+id/tempCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/secondDateLabel"
         android:layout_below="@+id/datePicker2"
         android:text="@string/tempCategory"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -88,5 +55,45 @@
         android:ems="10"
         android:inputType="textMultiLine"
         android:text="@string/eventDetails" />
+
+    <TextView
+        android:id="@+id/addCategoryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/DurationCheckBox"
+        android:layout_below="@+id/DurationCheckBox"
+        android:text="@string/firstDate"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addCategoryTitle"
+        android:layout_below="@+id/addCategoryTitle" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/datePicker2"
+        android:layout_below="@+id/datePicker1"
+        android:text="@string/secondDate"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <DatePicker
+        android:id="@+id/datePicker2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/datePicker1"
+        android:layout_below="@+id/textView2" />
+
+    <Button
+        android:id="@+id/addEventOK"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ok" />
 
 </RelativeLayout>

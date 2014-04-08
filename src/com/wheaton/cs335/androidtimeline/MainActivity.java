@@ -41,6 +41,9 @@ public class MainActivity extends Activity {
 		case R.id.AddEvent:
 			startActivity(new Intent(this, AddEvent.class));
 			break;
+		case R.id.AddCategory:
+			startActivity(new Intent(this, AddCategory.class));
+			break;
 		case R.id.action_settings:
 			break;
 		}
