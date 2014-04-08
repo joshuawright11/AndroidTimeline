@@ -13,5 +13,10 @@
     <string name="secondDate">Second Date</string>
     <string name="tempCategory">Temporary Category</string>
     <string name="eventDetails">Event Details</string>
+    <string name="title_activity_add_category">Add_category</string>
+    <string name="addCategoryTitle">Add Category</string>
+    <string name="categoryTitle">Category Title</string>
+    <string name="selectColor">Select Color</string>
+    <string name="ok">OK</string>
 
 </resources>
