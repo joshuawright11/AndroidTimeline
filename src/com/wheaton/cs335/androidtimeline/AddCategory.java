@@ -3,15 +3,25 @@ package com.wheaton.cs335.androidtimeline;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import android.os.Build;
 
-public class AddCategory extends Activity {
+public class AddCategory extends Activity implements OnSeekBarChangeListener{
+	
+	private SeekBar rsb, gsb, bsb;
+	private int red, green, blue;
+	private TextView categoryTitle;
+	private boolean initialized;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +32,30 @@ public class AddCategory extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		//setupSeekBars(dialogView);
+	}
+
+	private void setupSeekBars() {
+		rsb = (SeekBar) findViewById(R.id.redSelecter);
+		gsb = (SeekBar) findViewById(R.id.greenSelecter);
+		bsb = (SeekBar) findViewById(R.id.blueSelecter);
+		rsb.setOnSeekBarChangeListener(this);
+		gsb.setOnSeekBarChangeListener(this);
+		bsb.setOnSeekBarChangeListener(this);
+		categoryTitle = (TextView) findViewById(R.id.categoryName);
+	}
+	
+	private void updateColor() {
+		red = rsb.getProgress();
+		green = gsb.getProgress();
+		blue = bsb.getProgress();
+		categoryTitle.setTextColor(0xff000000+red*0x10000+green*0x100+blue);
+	}
+	
+	public void okClick(View view){
+		Intent intent = new Intent(this, MainActivity.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
+	    startActivity(intent);
 	}
 
 	@Override
@@ -59,6 +93,28 @@ public class AddCategory extends Activity {
 					container, false);
 			return rootView;
 		}
+	}
+
+	@Override
+	public void onProgressChanged(SeekBar seekBar, int progress,
+			boolean fromUser) {
+		if(!initialized){
+			setupSeekBars();
+		}
+		updateColor();
+		
+	}
+
+	@Override
+	public void onStartTrackingTouch(SeekBar seekBar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStopTrackingTouch(SeekBar seekBar) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -3,12 +3,15 @@ package com.wheaton.cs335.androidtimeline;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.os.Build;
 
 public class AddEvent extends Activity {
@@ -22,6 +25,13 @@ public class AddEvent extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+	}
+	
+	public void okClick(View view) {
+		// create event and add it to the database, then repaint the display
+		Intent intent = new Intent(this, MainActivity.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
+	    startActivity(intent);
 	}
 
 	@Override
