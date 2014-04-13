@@ -20,5 +20,6 @@
     <string name="ok">OK</string>
     <string name="addEvent">Add Event</string>
     <string name="addCategory">Add Category</string>
+    <string name="timelineListviewCaption">Select a timeline to work with from below</string>
 
 </resources>
