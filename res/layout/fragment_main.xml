@@ -9,8 +9,18 @@
     tools:context="com.wheaton.cs335.androidtimeline.MainActivity$PlaceholderFragment" >
 
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/greeting" />
+        android:text="@string/timelineListviewCaption" />
+
+    <ListView
+        android:id="@+id/timelineListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true" >
+
+    </ListView>
 
 </RelativeLayout>

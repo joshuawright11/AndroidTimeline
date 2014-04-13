@@ -5,5 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="greeting">Hey Andrew and Daniel!</string>
+    <string name="timelineListviewCaption">Select a timeline to work with from below</string>
 
 </resources>
