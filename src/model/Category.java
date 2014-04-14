@@ -6,7 +6,7 @@
 
 package model;
 
-import javafx.scene.paint.*;
+//import javafx.scene.paint.*;
 
 /**
  * Datatype in which to categories.
@@ -15,7 +15,7 @@ import javafx.scene.paint.*;
  */
 public class Category {
 	private String name;
-	private Color catColor; // GUI Color of the category.
+//	private Color catColor; // GUI Color of the category.
 	private int id;
 
 	/**
@@ -27,7 +27,7 @@ public class Category {
 	public Category(String name) {
 		this.id = -1;
 		this.name = name;
-		catColor = Color.web("0x0000FF", 1.0);
+//		catColor = Color.web("0x0000FF", 1.0);
 	}
 
 	/**
@@ -38,11 +38,11 @@ public class Category {
 	 * @param catColor
 	 *            The color of the category.
 	 */
-	public Category(String name, Color catColor) {
-		this.id = -1;
-		this.name = name;
-		this.catColor = catColor;
-	}
+//	public Category(String name, Color catColor) {
+//		this.id = -1;
+//		this.name = name;
+//		this.catColor = catColor;
+//	}
 
 	/**
 	 * Returns the name of the category.
@@ -58,9 +58,9 @@ public class Category {
 	 * 
 	 * @return The color.
 	 */
-	public Color getColor() {
-		return catColor;
-	}
+//	public Color getColor() {
+//		return catColor;
+//	}
 
 	/**
 	 * Sets the name of the category.
@@ -78,9 +78,9 @@ public class Category {
 	 * @param catColor
 	 *            The color to use.
 	 */
-	public void setColor(Color catColor) {
-		this.catColor = catColor;
-	}
+//	public void setColor(Color catColor) {
+//		this.catColor = catColor;
+//	}
 
 	/**
 	 * Saves the category. Not in use at the moment (the model saves everything).

@@ -6,7 +6,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import javafx.scene.paint.Color;
+//import javafx.scene.paint.Color;
 
 /**
  * Timeline.java
@@ -70,11 +70,11 @@ public class Timeline implements TimelineAPI {
 	/**
 	 * The Color of the timeline
 	 */
-	private Color colorTL;
+//	private Color colorTL;
 	/**
 	 * The Color of the Background
 	 */
-	private Color colorBG;
+//	private Color colorBG;
 	/**
 	 * whether the timeline has been changed since its last database sync
 	 */
@@ -103,18 +103,18 @@ public class Timeline implements TimelineAPI {
 	 * @param axisLabel
 	 *            Unit to render timeline in
 	 */
-	public Timeline(String name, AxisLabel axisLabel, Color colorTL,
-			Color colorBG) {
-		this.name = name;
-		this.colorBG = colorBG;
-		this.colorTL = colorTL;
-		events = new ArrayList<TLEvent>();
-		this.axisLabel = axisLabel;
-		this.events = new ArrayList<TLEvent>();
-		dirty = true;
-		categories = new ArrayList<Category>();
-		categories.add(new Category("DEFAULT"));
-	}
+//	public Timeline(String name, AxisLabel axisLabel, Color colorTL,
+//			Color colorBG) {
+//		this.name = name;
+//		this.colorBG = colorBG;
+//		this.colorTL = colorTL;
+//		events = new ArrayList<TLEvent>();
+//		this.axisLabel = axisLabel;
+//		this.events = new ArrayList<TLEvent>();
+//		dirty = true;
+//		categories = new ArrayList<Category>();
+//		categories.add(new Category("DEFAULT"));
+//	}
 
 	/**
 	 * Constructor for name, events, and axisLabel
@@ -126,21 +126,21 @@ public class Timeline implements TimelineAPI {
 	 * @param axisLabel
 	 *            Unit to render timeline in
 	 */
-	public Timeline(String name, TLEvent[] events, Color colorTL,
-			Color colorBG, AxisLabel axisLabel) {
-		categories = new ArrayList<Category>();
-		categories.add(new Category("DEFAULT"));
-		this.name = name;
-		if (events != null)
-			this.events = new ArrayList<TLEvent>(Arrays.asList(events));
-		else
-			this.events = new ArrayList<TLEvent>();
-		this.axisLabel = axisLabel;
-		this.colorBG = colorBG;
-		this.colorTL = colorTL;
-		dirty = true;
-
-	}
+//	public Timeline(String name, TLEvent[] events, Color colorTL,
+//			Color colorBG, AxisLabel axisLabel) {
+//		categories = new ArrayList<Category>();
+//		categories.add(new Category("DEFAULT"));
+//		this.name = name;
+//		if (events != null)
+//			this.events = new ArrayList<TLEvent>(Arrays.asList(events));
+//		else
+//			this.events = new ArrayList<TLEvent>();
+//		this.axisLabel = axisLabel;
+//		this.colorBG = colorBG;
+//		this.colorTL = colorTL;
+//		dirty = true;
+//
+//	}
 
 	/**
 	 * Return the unique ID of this event for the database.
@@ -285,35 +285,35 @@ public class Timeline implements TimelineAPI {
 	 * 
 	 * @return The Color BG of this Timeline.
 	 */
-	public Color getColorBG() {
-		return colorBG;
-	}
+//	public Color getColorBG() {
+//		return colorBG;
+//	}
 
 	/**
 	 * 
 	 * @return The Color of this Timeline.
 	 */
-	public Color getColorTL() {
-		return colorTL;
-	}
+//	public Color getColorTL() {
+//		return colorTL;
+//	}
 
 	/**
 	 * 
 	 * @param colorBG
 	 *            Sets the color of this Timeline's background.
 	 */
-	public void setColorBG(Color colorBG) {
-		this.colorBG = colorBG;
-	}
+//	public void setColorBG(Color colorBG) {
+//		this.colorBG = colorBG;
+//	}
 
 	/**
 	 * 
 	 * @param colorTL
 	 *            Sets the color of this Timeline.
 	 */
-	public void setColorTL(Color colorTL) {
-		this.colorTL = colorTL;
-	}
+//	public void setColorTL(Color colorTL) {
+//		this.colorTL = colorTL;
+//	}
 
 	/**
 	 * @return The AxisLabel of this Timeline.
@@ -456,11 +456,11 @@ public class Timeline implements TimelineAPI {
 	 * @param color
 	 *            The new color of this category.
 	 */
-	public void editCategory(String title, String name, Color color) {
-		Category c = getCategory(title);
-		c.setColor(color);
-		c.setName(name);
-	}
+//	public void editCategory(String title, String name, Color color) {
+//		Category c = getCategory(title);
+//		c.setColor(color);
+//		c.setName(name);
+//	}
 
 	/**
 	 * 

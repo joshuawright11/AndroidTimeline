@@ -1,10 +1,8 @@
 package model;
 
-import render.*;
-import gui.*;
 import storage.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+//import javafx.scene.paint.Color;
+//import javafx.scene.text.Font;
 import model.Timeline.AxisLabel;
 
 import java.sql.Date;
@@ -44,12 +42,12 @@ public class TimelineMaker {
 	/**
 	 * The main GUI window for this application.
 	 */
-	private MainWindowController mainWindow;
+	//private MainWindowController mainWindow;
 
 	/**
 	 * The graphics object for displaying timelines in this application.
 	 */
-	public TimelineGraphics graphics;
+	//public TimelineGraphics graphics;
 	int idCounter;
 
 	private final String help_text = "\tHow to use this Timeline Maker:  \n"
@@ -70,11 +68,11 @@ public class TimelineMaker {
 	 * graphics, and GUI components.
 	 */
 	public TimelineMaker() {
-		database = new DBHelper("timeline.db");
-		graphics = new TimelineGraphics(this);
+		//database = new DBHelper("timeline.db");
+		//graphics = new TimelineGraphics(this);
 		timelines = new ArrayList<Timeline>();
 		icons = new ArrayList<Icon>();
-		icons.add(new Icon("None", null, null));
+//		icons.add(new Icon("None", null, null));
 		try {
 			for (Timeline t : database.getTimelines())
 				timelines.add(t);
@@ -158,28 +156,28 @@ public class TimelineMaker {
 	 *            the name of the icon to be deleted
 	 * @return success
 	 */
-	public boolean deleteIcon(String icon) {
-		// TODO GET THIS WORKING
-		// The user is not allowed to delete the only category!
-		if (icons.size() <= 1)
-			return false;
-		Icon ico = new Icon(null, null, null);
-		for (Icon i : icons)
-			if (i.getName().equals(icon)) {
-				ico = i;
-				break;
-			}
-		for (Timeline t : timelines) {
-			Iterator<TLEvent> eventIterator = t.getEventIterator();
-			TLEvent e;
-			while (eventIterator.hasNext()) {
-				e = eventIterator.next();
-				if (e.getIcon() == ico)
-					e.setIcon(null);
-			}
-		}
-		return icons.remove(ico);
-	}
+//	public boolean deleteIcon(String icon) {
+//		// TODO GET THIS WORKING
+//		// The user is not allowed to delete the only category!
+//		if (icons.size() <= 1)
+//			return false;
+////		Icon ico = new Icon(null, null, null);
+//		for (Icon i : icons)
+//			if (i.getName().equals(icon)) {
+////				ico = i;
+//				break;
+//			}
+//		for (Timeline t : timelines) {
+//			Iterator<TLEvent> eventIterator = t.getEventIterator();
+//			TLEvent e;
+//			while (eventIterator.hasNext()) {
+//				e = eventIterator.next();
+////				if (e.getIcon() == ico)
+////					e.setIcon(null);
+//			}
+//		}
+////		return icons.remove(ico);
+//	}
 
 	/**
 	 * Retrieve a list of the names of all the timelines.
@@ -248,18 +246,18 @@ public class TimelineMaker {
 	 * @param t
 	 *            the timeline to be added
 	 */
-	public void addTimeline(String title, Color colorTL, Color colorBG,
-			AxisLabel axisUnit, Font font) {
-		Timeline t = new Timeline(title, axisUnit, colorTL, colorBG);
-		selectedTimeline = t;
-		selectedEvent = null;
-		timelines.add(selectedTimeline);
-
-		database.saveTimeline(selectedTimeline);
-		mainWindow.populateListView();
-		// gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
-		updateGraphics();
-	}
+//	public void addTimeline(String title, Color colorTL, Color colorBG,
+//			AxisLabel axisUnit, Font font) {
+//		Timeline t = new Timeline(title, axisUnit, colorTL, colorBG);
+//		selectedTimeline = t;
+//		selectedEvent = null;
+//		timelines.add(selectedTimeline);
+//
+//		database.saveTimeline(selectedTimeline);
+//		//mainWindow.populateListView();
+//		// gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
+//		updateGraphics();
+//	}
 
 	/**
 	 * Remove a timeline from this model. Update selectedTimeline,
@@ -274,8 +272,8 @@ public class TimelineMaker {
 			database.removeTimeline(selectedTimeline);
 			selectedTimeline = null;
 			selectedEvent = null;
-			graphics.clearScreen();
-			mainWindow.populateListView();
+			//graphics.clearScreen();
+			//mainWindow.populateListView();
 		}
 	}
 
@@ -288,24 +286,24 @@ public class TimelineMaker {
 	 *            the new timeline
 	 */
 
-	public void editTimeline(Timeline t, String title, Color colorTL,
-			Color colorBG, AxisLabel axisUnit, Font font) {
-		timelines.remove(selectedTimeline);
-		Timeline newTimeline = new Timeline(title, t.getEvents(), colorTL,
-				colorBG, axisUnit);
-		newTimeline.setID(t.getID());
-		timelines.add(newTimeline);
-		database.editTimelineInfo(newTimeline);
-		selectedTimeline = newTimeline;
-		mainWindow.populateListView();
-		updateGraphics();
-	}
+//	public void editTimeline(Timeline t, String title, Color colorTL,
+//			Color colorBG, AxisLabel axisUnit, Font font) {
+//		timelines.remove(selectedTimeline);
+//		Timeline newTimeline = new Timeline(title, t.getEvents(), colorTL,
+//				colorBG, axisUnit);
+//		newTimeline.setID(t.getID());
+//		timelines.add(newTimeline);
+//		database.editTimelineInfo(newTimeline);
+//		selectedTimeline = newTimeline;
+//		//mainWindow.populateListView();
+//		updateGraphics();
+//	}
 
 	/**
 	 * Populates the list view of the main window.
 	 */
 	public void populateView() {
-		mainWindow.populateListView();
+		//mainWindow.populateListView();
 	}
 
 	/**
@@ -406,8 +404,8 @@ public class TimelineMaker {
 	 * Update the graphics for the display screen.
 	 */
 	public void updateGraphics() {
-		graphics.clearScreen();
-		graphics.renderTimeline(selectedTimeline);
+		//graphics.clearScreen();
+		//graphics.renderTimeline(selectedTimeline);
 	}
 
 	/**
@@ -416,9 +414,9 @@ public class TimelineMaker {
 	 * @param mainWindow
 	 *            the mainWindow to set
 	 */
-	public void setMainWindow(MainWindowController mainWindow) {
-		this.mainWindow = mainWindow;
-	}
+	//public void setMainWindow(MainWindowController mainWindow) {
+		//this.mainWindow = mainWindow;
+	//}
 
 	/**
 	 * Gets the size of the timeline array
