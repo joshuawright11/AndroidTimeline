@@ -1,5 +1,6 @@
 package com.wheaton.cs335.androidtimeline;
 
+import model.Atomic;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -12,9 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.os.Build;
 
 public class AddEvent extends Activity {
+	
+	boolean checkBox;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +30,34 @@ public class AddEvent extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		checkBox = false;
 	}
 	
 	public void okClick(View view) {
+		/*String title = ((EditText) findViewById(R.id.EventTitle)).getText().toString();
+		
+		if(!checkBox){
+			Atomic event = new Atomic(title,);
+		}
+		*/
 		// create event and add it to the database, then repaint the display
 		Intent intent = new Intent(this, MainActivity.class);
 	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
 	    startActivity(intent);
+	}
+	
+	public void onCheckboxClicked(View view) {
+		TextView text = (TextView) findViewById(R.id.secondDate);
+		DatePicker picker = (DatePicker) findViewById(R.id.datePicker2);
+		if(!checkBox){
+			text.setVisibility(View.INVISIBLE);
+			picker.setVisibility(View.INVISIBLE);
+		}else{
+			text.setVisibility(View.VISIBLE);
+			picker.setVisibility(View.VISIBLE);
+		}
+		checkBox = !checkBox;
 	}
 
 	@Override
