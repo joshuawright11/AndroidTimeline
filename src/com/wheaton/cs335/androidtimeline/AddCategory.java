@@ -10,16 +10,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.graphics.Color;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.os.Build;
 
-public class AddCategory extends Activity implements OnSeekBarChangeListener{
+public class AddCategory extends Activity{
 	
 	private SeekBar rsb, gsb, bsb;
 	private int red, green, blue;
+	PlaceholderFragment phf;
 	private TextView categoryTitle;
 	private boolean initialized;
 
@@ -27,29 +29,49 @@ public class AddCategory extends Activity implements OnSeekBarChangeListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_category);
-
 		if (savedInstanceState == null) {
+			phf = new PlaceholderFragment();
+			phf.sl = new SeekListener();
+			rsb = phf.rsb;
+			gsb = phf.gsb;
+			bsb = phf.bsb;
 			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+					.add(R.id.container, phf).commit();
 		}
-		//setupSeekBars(dialogView);
 	}
+	
+	private class SeekListener implements OnSeekBarChangeListener{
 
-	private void setupSeekBars() {
-		rsb = (SeekBar) findViewById(R.id.redSelecter);
-		gsb = (SeekBar) findViewById(R.id.greenSelecter);
-		bsb = (SeekBar) findViewById(R.id.blueSelecter);
-		rsb.setOnSeekBarChangeListener(this);
-		gsb.setOnSeekBarChangeListener(this);
-		bsb.setOnSeekBarChangeListener(this);
-		categoryTitle = (TextView) findViewById(R.id.categoryName);
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			updateColor();
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 	
 	private void updateColor() {
+		rsb = (SeekBar) findViewById(R.id.redSelecter);
+		gsb = (SeekBar) findViewById(R.id.greenSelecter);
+		bsb = (SeekBar) findViewById(R.id.blueSelecter);
 		red = rsb.getProgress();
 		green = gsb.getProgress();
 		blue = bsb.getProgress();
-		categoryTitle.setTextColor(0xff000000+red*0x10000+green*0x100+blue);
+		rsb.setBackgroundColor(Color.rgb(red,green,blue));
+		gsb.setBackgroundColor(Color.rgb(red,green,blue));
+		bsb.setBackgroundColor(Color.rgb(red,green,blue));
 	}
 	
 	public void okClick(View view){
@@ -82,39 +104,30 @@ public class AddCategory extends Activity implements OnSeekBarChangeListener{
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment {
+		private SeekBar rsb, gsb, bsb;
+		private SeekListener sl;
+		public PlaceholderFragment(){}
 
-		public PlaceholderFragment() {
-		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_add_category,
 					container, false);
+			
+			rsb = (SeekBar) rootView.findViewById(R.id.redSelecter);
+			gsb = (SeekBar) rootView.findViewById(R.id.greenSelecter);
+			bsb = (SeekBar) rootView.findViewById(R.id.blueSelecter);
+			
+			rsb.setMax(255); rsb.setProgress(255); rsb.setBackgroundColor(Color.WHITE);
+			gsb.setMax(255); gsb.setProgress(255); gsb.setBackgroundColor(Color.WHITE);
+			bsb.setMax(255); bsb.setProgress(255); bsb.setBackgroundColor(Color.WHITE);
+			
+			rsb.setOnSeekBarChangeListener(sl);
+			gsb.setOnSeekBarChangeListener(sl);
+			bsb.setOnSeekBarChangeListener(sl);
+			
 			return rootView;
 		}
 	}
-
-	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress,
-			boolean fromUser) {
-		if(!initialized){
-			setupSeekBars();
-		}
-		updateColor();
-		
-	}
-
-	@Override
-	public void onStartTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onStopTrackingTouch(SeekBar seekBar) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
