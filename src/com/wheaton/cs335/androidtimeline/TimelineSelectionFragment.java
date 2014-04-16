@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import model.Timeline;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,19 +49,13 @@ public class TimelineSelectionFragment extends Fragment {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-				final String item = (String) parent.getItemAtPosition(position);
-				// nifty animation example. Sets the transparency (alpha) to 0 over 2 seconds, then removes from the list
-				view.animate().setDuration(2000).alpha(0)
-				.withEndAction(new Runnable() {
+				
+				Intent intent = new Intent(getActivity(), TimelineDisplayActivity.class);
 
-					@Override
-					public void run() {
-						list.remove(item);
-						adapter.notifyDataSetChanged();
-						view.setAlpha(1);
-					}
-					
-				});
+				intent.putExtra("TIMELINE", new Timeline("Sweet"));
+				
+				startActivity(intent);
+				
 			}
 
 		});
