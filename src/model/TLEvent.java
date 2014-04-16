@@ -3,11 +3,12 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import storage.DBHelper;
 
-public class TLEvent {
+public class TLEvent implements Serializable{
 	protected String description, name;
 
 	/**

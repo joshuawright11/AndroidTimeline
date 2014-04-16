@@ -3,10 +3,16 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 //import javafx.scene.paint.Color;
+
+
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Timeline.java
@@ -20,7 +26,7 @@ import java.util.Iterator;
  * @author Josh Wright and Andrew Thompson Wheaton College, CS 335, Spring 2014
  *         Project Phase 1 Feb 15, 2014
  */
-public class Timeline implements TimelineAPI {
+public class Timeline implements TimelineAPI,Serializable {
 
 	/**
 	 * ArrayList to keep track of the events in the timeline
