@@ -6,6 +6,8 @@
 
 package model;
 
+import java.io.Serializable;
+
 //import javafx.scene.paint.*;
 
 /**
@@ -13,7 +15,7 @@ package model;
  * 
  * @author Kayley
  */
-public class Category {
+public class Category implements Serializable{
 	private String name;
 //	private Color catColor; // GUI Color of the category.
 	private int id;
