@@ -30,6 +30,7 @@
             android:name="com.wheaton.cs335.androidtimeline.AddCategory"
             android:label="@string/title_activity_add_category" >
         </activity>
+        <activity android:name="com.wheaton.cs335.androidtimeline.TimelineDisplayActivity" android:label="@string/title_activity_add_category"></activity>
     </application>
 
 </manifest>
