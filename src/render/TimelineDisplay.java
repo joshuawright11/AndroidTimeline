@@ -11,11 +11,14 @@ import model.TLEvent;
 import model.Timeline;
 import model.Timeline.AxisLabel;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -226,8 +229,8 @@ public class TimelineDisplay extends RelativeLayout{
 		renderTime();
 		renderAtomics();
 		renderDurations();
-		renderTime2(); //Renders the axis detail
 		renderLines(); //Renders the axis detail
+		renderTime2(); //Renders the axis detail
 		Toast.makeText(getContext(), "Done! Pushdown = " + pushDown, Toast.LENGTH_SHORT).show(); //TODO REMOVE
 		getLayoutParams().height = pushDown; //TODO Might not work
 		eventsToFront();
@@ -253,62 +256,48 @@ public class TimelineDisplay extends RelativeLayout{
 	 * unitLabel method). Adds the label to the group, and when finished puts
 	 * the group in a scene and displays the scene in the fxPanel.
 	 */
-
 	private void renderTime() {
-//		int diffUnit = getUnitLength();
-//		int xPos2 = 0;
-//		for (int i = 0; i < diffUnit; i++) {
-//			TextView label = unitLabel(i, xPos2);
-//			addView(label);
-//
-//			Canvas canvas = new Canvas(unitWidth, 400);
-//			canvas.setLayoutX(xPos2);
-//			canvas.setLayoutY(pushDown);
-//			GraphicsContext gc = canvas.getGraphicsContext2D();
-//
-//			gc.setStroke(color);
-//			gc.setLineWidth(3);
-//			gc.strokeLine(0, 10, unitWidth, 10);
-//			gc.strokeLine(0, 0, 0, 20);
-//			gc.strokeLine(unitWidth, 0, unitWidth, 20);
-//
-//			getChildren().add(canvas);
-//
-//			xPos2 += unitWidth;
-//		}
-//		getLayoutParams().width = (xPos2 + 5);
-//		requestLayout();
+		int diffUnit = getUnitLength();
+		int xPos2 = 0;
+		for (int i = 0; i < diffUnit; i++) {
+			AxisView axisSection = new AxisView(getContext(), xPos2, pushDown, unitWidth, 400); 
+			Bitmap result = Bitmap.createBitmap(unitWidth, 5, Bitmap.Config.ARGB_8888);
+			Canvas canvas = new Canvas(result);
+			axisSection.draw(canvas);
+			addView(axisSection);
+			
+			TextView label = unitLabel(i, xPos2); //MUST BE AFTER
+			addView(label);
+			
+			xPos2 += unitWidth;
+		}
+		pushDown += 10;
+		getLayoutParams().width = (xPos2 + 5);
+		requestLayout();
 	}
-
-	/**
-	 * Renders each 'Unit' on the Bottom axis as label with width unitWidth
-	 * (uses unitLabel method). Adds the label to the group, and when finished
-	 * puts the group in a scene and displays the scene in the fxPanel.
-	 */
-
+	
 	private void renderTime2() {
-//		int diffUnit = getUnitLength();
-//		int xPos2 = 0;
-//		for (int i = 0; i < diffUnit; i++) {
-//			Label label = unitLabel(i, xPos2);
-//			getChildren().add(label);
-//
-//			Canvas canvas = new Canvas(unitWidth, 400);
-//			canvas.setLayoutX(xPos2);
-//			canvas.setLayoutY(pushDown);
-//			GraphicsContext gc = canvas.getGraphicsContext2D();
-//
-//			gc.setStroke(color);
-//			gc.setLineWidth(3);
-//			gc.strokeLine(0, 10, unitWidth, 10);
-//			gc.strokeLine(0, 0, 0, 20);
-//			gc.strokeLine(unitWidth, 0, unitWidth, 20);
-//
-//			getChildren().add(canvas);
-//
-//			xPos2 += unitWidth;
-//		}
-//		setLayoutX(xPos2 + 5);
+		int diffUnit = getUnitLength();
+		int xPos2 = 0;
+		for (int i = 0; i < diffUnit; i++) {
+			TextView label = unitLabel(i, xPos2); //MUST BE AFTER
+			addView(label);
+			xPos2 += unitWidth;
+		}
+		pushDown += 36; //guess and check
+		xPos2 = 0;
+		for (int i = 0; i < diffUnit; i++) {
+			AxisView axisSection = new AxisView(getContext(), xPos2, pushDown, unitWidth, 5); 
+			Bitmap result = Bitmap.createBitmap(unitWidth, 5, Bitmap.Config.ARGB_8888);
+			Canvas canvas = new Canvas(result);
+			axisSection.draw(canvas);
+			addView(axisSection);
+			
+			xPos2 += unitWidth;
+		}
+		pushDown += 5;
+		getLayoutParams().width = (xPos2 + 5);
+		requestLayout();
 	}
 	
 	/**
@@ -316,10 +305,17 @@ public class TimelineDisplay extends RelativeLayout{
 	 * 
 	 */
 	private void renderLines() {
-//		int diffUnit = getUnitLength();
-//		int xPos2 = 0;
-//		for (int i = 0; i < diffUnit; i++) {
-//
+		int diffUnit = getUnitLength();
+		int xPos2 = 0;
+		for (int i = 0; i < diffUnit; i++) {
+
+			AxisSeparator axisSection = new AxisSeparator(getContext(), xPos2, 59, 4, pushDown); 
+			Bitmap result = Bitmap.createBitmap(5, pushDown, Bitmap.Config.ARGB_8888);
+			Canvas canvas = new Canvas(result);
+			axisSection.draw(canvas);
+			addView(axisSection);
+
+			
 //			Canvas canvas = new Canvas(unitWidth, 400);
 //			canvas.setLayoutX(xPos2);
 //			canvas.setLayoutY(60);
@@ -331,10 +327,11 @@ public class TimelineDisplay extends RelativeLayout{
 //			gc.strokeLine(unitWidth, 23, unitWidth, pushDown - 56);
 //
 //			getChildren().add(canvas);
-//
-//			xPos2 += unitWidth;
-//		}
-//		setLayoutX(xPos2 + 5);
+
+			xPos2 += unitWidth;
+		}
+		getLayoutParams().width = (xPos2 + 5);
+		requestLayout();
 	}
 	
 	/**
@@ -378,11 +375,12 @@ public class TimelineDisplay extends RelativeLayout{
 			break;
 		}
 		
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(unitWidth, 40);
+		LayoutParams params = new LayoutParams(unitWidth, 40);
 		params.leftMargin = xPos2;
 		params.topMargin = pushDown;
-		setLayoutParams(params);
+		label.setLayoutParams(params);
 		label.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+		label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
 		//TODO LABEL DESIGN
 		return label;
 	}
@@ -586,32 +584,9 @@ public class TimelineDisplay extends RelativeLayout{
 		TextView t = new TextView(getContext());
 		t.setText(timeline.getName());
 		t.setX(20);
-		t.setY(40);
+		t.setY(20);
 		//TODO MAKE THIS LOOK PRETTY... also might not work. 
 		return t;
 	}
 	
-	/*******************
-	 ****TESTING*ONLY***
-	 *******************/
-	private void test() {
-        TextView mTextView = new TextView(getContext());
-        TextView mTextView2 = new TextView(getContext());
-        DurationTextView testing = new DurationTextView(getContext(),new Duration("HEY", new Category("Hey"), null,null, 0, "YEARS"),10,10,300);
-        
-        mTextView.setText(timeline.getName());
-        mTextView2.setText("Hello");
-        mTextView2.setBackgroundColor(Color.GREEN);
-        
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, 100);
-        params.leftMargin = 100;
-        params.topMargin = 100;
-        
-        mTextView2.setLayoutParams(params);
-        
-        addView(mTextView);
-        addView(mTextView2);
-        addView(testing);
-	}
-
 }
