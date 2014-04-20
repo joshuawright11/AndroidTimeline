@@ -6,6 +6,8 @@
 
 package model;
 
+import android.graphics.drawable.Drawable;
+
 //import javafx.scene.image.Image;
 
 /**
@@ -21,7 +23,7 @@ public class Icon {
 	/**
 	 * The image associated with this icon.
 	 */
-//	private Image icon;
+	private Drawable icon;
 
 	/**
 	 * The id of this icon
@@ -43,12 +45,12 @@ public class Icon {
 	 * @param path
 	 *            The path to set
 	 */
-//	public Icon(String name, Image icon, String path) {
-//		this.name = name;
-//		this.icon = icon;
-//		this.path = path;
-//		this.setId(-1);
-//	}
+	public Icon(String name, Drawable icon, String path) {
+		this.name = name;
+		this.icon = icon;
+		this.path = path;
+		this.setId(-1);
+	}
 
 	/**
 	 * Get the name of the icon.
@@ -64,9 +66,9 @@ public class Icon {
 	 * 
 	 * @return The image of the icon
 	 */
-//	public Image getImage() {
-//		return icon;
-//	}
+	public Drawable getImage() {
+		return icon;
+	}
 
 	/**
 	 * @return the id
