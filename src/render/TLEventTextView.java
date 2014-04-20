@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.View;
@@ -110,6 +111,7 @@ public abstract class TLEventTextView extends TextView {
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		params.leftMargin = xPos;
 		params.topMargin = yPos;
+		Log.d(VIEW_LOG_TAG, event.getName() + " added with a left margin of " + xPos + " and a top margin of " + yPos);
 		setLayoutParams(params);
 		setText(event.getName());
 		setBackgroundColor(event.getCategory().getColor());

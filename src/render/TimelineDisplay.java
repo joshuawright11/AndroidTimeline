@@ -14,6 +14,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -227,11 +228,11 @@ public class TimelineDisplay extends RelativeLayout{
 		renderDurations();
 		renderTime2(); //Renders the axis detail
 		renderLines(); //Renders the axis detail
-		pushDown = 60;
-		eventsToFront();
+		Toast.makeText(getContext(), "Done! Pushdown = " + pushDown, Toast.LENGTH_SHORT).show(); //TODO REMOVE
 		getLayoutParams().height = pushDown; //TODO Might not work
+		eventsToFront();
+		pushDown = 60; //Why is this here??
 		
-		Toast.makeText(getContext(), "Done with rendering!", Toast.LENGTH_SHORT).show(); //TODO REMOVE
 		
 		requestLayout();
 	}
@@ -465,9 +466,10 @@ public class TimelineDisplay extends RelativeLayout{
 		pushDown += 30;
 		for (Atomic e : atomics) {
 			int xPosition = getXPos(e.getStartDate());
-			AtomicTextView label = new AtomicTextView(getContext(), e, pushDown, xPosition);
+			AtomicTextView label = new AtomicTextView(getContext(), e, xPosition, pushDown);
 			eventLabels.add(label);
 			addView(label);
+			Log.d(VIEW_LOG_TAG, e.getName() + " added at " + pushDown);
 			pushDown += 25;
 		}
 		// add a little space between the atomic events and the axis
@@ -492,6 +494,7 @@ public class TimelineDisplay extends RelativeLayout{
 			DurationTextView label = new DurationTextView(getContext(), e, xStart, (pushDown + 45 + counter), labelWidth);
 			eventLabels.add(label);
 			addView(label);
+			Log.d(VIEW_LOG_TAG, e.getName() + " added at " + pushDown);
 			pushDown += 25;
 		}
 		pushDown += 65;
