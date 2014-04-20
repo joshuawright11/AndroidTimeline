@@ -34,7 +34,7 @@ public class TimelineSelectionFragment extends Fragment {
 	}
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle sanvedInstanceState){
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 		timelineList = (ListView) rootView.findViewById(R.id.timelineListView);
