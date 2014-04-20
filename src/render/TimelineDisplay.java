@@ -18,10 +18,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * This is the class that renders the actual timeline onto a JFXPanel using
@@ -231,12 +230,9 @@ public class TimelineDisplay extends RelativeLayout{
 		renderDurations();
 		renderLines(); //Renders the axis detail
 		renderTime2(); //Renders the axis detail
-		Toast.makeText(getContext(), "Done! Pushdown = " + pushDown, Toast.LENGTH_SHORT).show(); //TODO REMOVE
 		getLayoutParams().height = pushDown; //TODO Might not work
 		eventsToFront();
-		pushDown = 60; //Why is this here??
-		
-		
+		pushDown = 60; //For re-rendering
 		requestLayout();
 	}
 	
@@ -249,6 +245,7 @@ public class TimelineDisplay extends RelativeLayout{
 				//label.setGraphic(new ImageView(label.getIcon())); TODO ICONS
 			label.bringToFront();
 		}
+		
 	}
 	
 	/**
@@ -309,24 +306,11 @@ public class TimelineDisplay extends RelativeLayout{
 		int xPos2 = 0;
 		for (int i = 0; i < diffUnit; i++) {
 
-			AxisSeparator axisSection = new AxisSeparator(getContext(), xPos2, 59, 4, pushDown); 
-			Bitmap result = Bitmap.createBitmap(5, pushDown, Bitmap.Config.ARGB_8888);
+			AxisSeparator axisSection = new AxisSeparator(getContext(), xPos2, 63, 2, pushDown); 
+			Bitmap result = Bitmap.createBitmap(5, pushDown+4, Bitmap.Config.ARGB_8888);
 			Canvas canvas = new Canvas(result);
 			axisSection.draw(canvas);
 			addView(axisSection);
-
-			
-//			Canvas canvas = new Canvas(unitWidth, 400);
-//			canvas.setLayoutX(xPos2);
-//			canvas.setLayoutY(60);
-//			GraphicsContext gc = canvas.getGraphicsContext2D();
-//
-//			gc.setLineWidth(3);
-//			gc.setStroke(color);
-//			gc.strokeLine(0, 23, 0, pushDown - 56);
-//			gc.strokeLine(unitWidth, 23, unitWidth, pushDown - 56);
-//
-//			getChildren().add(canvas);
 
 			xPos2 += unitWidth;
 		}
@@ -467,7 +451,6 @@ public class TimelineDisplay extends RelativeLayout{
 			AtomicTextView label = new AtomicTextView(getContext(), e, xPosition, pushDown);
 			eventLabels.add(label);
 			addView(label);
-			Log.d(VIEW_LOG_TAG, e.getName() + " added at " + pushDown);
 			pushDown += 25;
 		}
 		// add a little space between the atomic events and the axis
@@ -492,7 +475,6 @@ public class TimelineDisplay extends RelativeLayout{
 			DurationTextView label = new DurationTextView(getContext(), e, xStart, (pushDown + 45 + counter), labelWidth);
 			eventLabels.add(label);
 			addView(label);
-			Log.d(VIEW_LOG_TAG, e.getName() + " added at " + pushDown);
 			pushDown += 25;
 		}
 		pushDown += 65;

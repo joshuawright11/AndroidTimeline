@@ -22,6 +22,7 @@ public class AxisSeparator extends View {
 	
 	public AxisSeparator(Context context) {
 		super(context);
+		getBackground().setAlpha(128);
 	}
 	
     public AxisSeparator(Context context, int leftMargin, int topMargin, int width, int height) {
@@ -39,6 +40,7 @@ public class AxisSeparator extends View {
         paint.setStrokeWidth(5);
         canvas.drawColor(Color.WHITE);
         paint.setColor(Color.BLACK);
+        paint.setAlpha(128);
         canvas.drawLine(0, 0, 0, height, paint);
     }
 
