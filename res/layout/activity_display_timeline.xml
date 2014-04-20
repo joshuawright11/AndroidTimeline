@@ -8,9 +8,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <com.wheaton.cs335.androidtimeline.TimelineDisplay 
+    <render.TimelineDisplay 
         android:id="@+id/timelineDisplay" 
         android:layout_width="fill_parent"
     	android:layout_height="wrap_content">
-    </com.wheaton.cs335.androidtimeline.TimelineDisplay>
+    </render.TimelineDisplay>
 </ScrollView>

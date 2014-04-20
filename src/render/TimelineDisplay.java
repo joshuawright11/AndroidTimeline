@@ -1,7 +1,4 @@
-package com.wheaton.cs335.androidtimeline;
-import render.AtomicTextView;
-import render.DurationTextView;
-import model.Atomic;
+package render;
 import model.Category;
 import model.Duration;
 import model.Timeline;

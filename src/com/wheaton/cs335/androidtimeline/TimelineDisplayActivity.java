@@ -3,6 +3,7 @@
  */
 package com.wheaton.cs335.androidtimeline;
 
+import render.TimelineDisplay;
 import model.Timeline;
 import android.app.Activity;
 import android.os.Bundle;
