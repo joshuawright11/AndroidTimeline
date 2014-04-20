@@ -6,6 +6,8 @@
 
 package model;
 
+import java.io.Serializable;
+
 import android.graphics.drawable.Drawable;
 
 //import javafx.scene.image.Image;
@@ -14,7 +16,7 @@ import android.graphics.drawable.Drawable;
  * 
  * @author Kayley Lane
  */
-public class Icon {
+public class Icon implements Serializable{
 	/**
 	 * The name of the image, seperate from its entire path.
 	 */
