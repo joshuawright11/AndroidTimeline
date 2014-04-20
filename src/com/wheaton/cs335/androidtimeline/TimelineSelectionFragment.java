@@ -58,10 +58,15 @@ public class TimelineSelectionFragment extends Fragment {
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 				
 				Intent intent = new Intent(getActivity(), TimelineDisplayActivity.class);
-
-				TLEvent event1 = new Atomic("one", new Category(""), new Date(((long)1000)*60*60*24*10), -1, "");
-				TLEvent event2 = new Duration("two", new Category(""), new Date(((long)1000)*60*60*24),new Date(((long)1000)*60*60*24*2), -1, "");
-				TLEvent event3 = new Atomic("three", new Category(""), new Date(((long)1000)*60*60*24), -1, "");
+				
+				Date one = Date.valueOf("1993-09-11");
+				Date two = Date.valueOf("1993-09-21");
+				Date three = Date.valueOf("1993-09-12");
+				Date four = Date.valueOf("1993-09-20");
+				
+				TLEvent event1 = new Atomic("one", new Category(""), one, -1, "");
+				TLEvent event2 = new Duration("two", new Category(""), three,four, -1, "");
+				TLEvent event3 = new Atomic("three", new Category(""), two, -1, "");
 				Timeline test1 = new Timeline("Tester", AxisLabel.DAYS,Color.BLUE,Color.GRAY);
 				test1.addEvent(event1);
 				test1.addEvent(event2);
