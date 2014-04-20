@@ -50,7 +50,6 @@ public class DurationTextView extends TLEventTextView {
 	@Override
 	public void uniqueDesign() {
 		setWidth(width);
-		setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 		//setId("duration-label"); TODO DURATION DESIGN
 	}
 

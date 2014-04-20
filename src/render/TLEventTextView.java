@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -112,6 +113,7 @@ public abstract class TLEventTextView extends TextView {
 		setLayoutParams(params);
 		setText(event.getName());
 		setBackgroundColor(event.getCategory().getColor());
+		setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 		uniqueDesign();
 	}
 
