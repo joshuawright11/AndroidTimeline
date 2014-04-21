@@ -7,7 +7,15 @@
     android:layout_marginBottom="0dp" 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-
+<!-- 
+    <ScrollView
+	    android:clickable="true" 
+		android:orientation="vertical"
+		android:layout_weight="1" 
+		android:layout_marginBottom="0dp" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" >
+ -->
     <render.TimelineDisplay 
         android:id="@+id/timelineDisplay" 
         android:layout_width="wrap_content"
