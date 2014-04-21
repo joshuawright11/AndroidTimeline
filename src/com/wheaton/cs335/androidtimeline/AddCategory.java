@@ -16,6 +16,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.os.Build;
+import model.Category;
 
 public class AddCategory extends Activity{
 	
@@ -75,6 +76,15 @@ public class AddCategory extends Activity{
 	}
 	
 	public void okClick(View view){
+		rsb = (SeekBar) findViewById(R.id.redSelecter);
+		gsb = (SeekBar) findViewById(R.id.greenSelecter);
+		bsb = (SeekBar) findViewById(R.id.blueSelecter);
+		red = rsb.getProgress();
+		green = gsb.getProgress();
+		blue = bsb.getProgress();
+		Category cat = new Category(((TextView) findViewById(R.id.categoryName)).getText().toString(),Color.rgb(red,green,blue));
+		//save category
+		
 		Intent intent = new Intent(this, MainActivity.class);
 	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
 	    startActivity(intent);

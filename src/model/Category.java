@@ -9,6 +9,7 @@ package model;
 import java.io.Serializable;
 
 //import javafx.scene.paint.*;
+import android.graphics.Color;
 
 /**
  * Datatype in which to categories.
@@ -17,7 +18,7 @@ import java.io.Serializable;
  */
 public class Category implements Serializable{
 	private String name;
-//	private Color catColor; // GUI Color of the category.
+	private int catColor; // GUI Color of the category.
 	private int id;
 
 	/**
@@ -40,11 +41,11 @@ public class Category implements Serializable{
 	 * @param catColor
 	 *            The color of the category.
 	 */
-//	public Category(String name, Color catColor) {
-//		this.id = -1;
-//		this.name = name;
-//		this.catColor = catColor;
-//	}
+	public Category(String name, int catColor) {
+		this.id = -1;
+		this.name = name;
+		this.catColor = catColor;
+	}
 
 	/**
 	 * Returns the name of the category.

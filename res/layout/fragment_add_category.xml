@@ -9,7 +9,7 @@
     tools:context="com.wheaton.cs335.androidtimeline.Add_category$PlaceholderFragment" >
 
     <TextView
-        android:id="@+id/addCategoryTitle"
+        android:id="@+id/firstDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -21,8 +21,8 @@
         android:id="@+id/categoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/addCategoryTitle"
-        android:layout_below="@+id/addCategoryTitle"
+        android:layout_alignLeft="@+id/firstDate"
+        android:layout_below="@+id/firstDate"
         android:ems="10"
         android:inputType="text"
         android:text="@string/categoryTitle" >

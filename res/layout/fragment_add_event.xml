@@ -31,37 +31,20 @@
     </EditText>
 
     <CheckBox
-        android:id="@+id/DurationCheckBox"
+        android:id="@+id/AtomicCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/EventTitle"
         android:layout_below="@+id/EventTitle"
-        android:text="@string/editCheckBox" />
+        android:onClick="onCheckboxClicked"
+        android:text="@string/atomic" />
 
     <TextView
-        android:id="@+id/tempCategory"
+        android:id="@+id/firstDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/datePicker2"
-        android:text="@string/tempCategory"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/eventDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tempCategory"
-        android:layout_below="@+id/tempCategory"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="@string/eventDetails" />
-
-    <TextView
-        android:id="@+id/addCategoryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/DurationCheckBox"
-        android:layout_below="@+id/DurationCheckBox"
+        android:layout_alignLeft="@+id/AtomicCheckBox"
+        android:layout_below="@+id/AtomicCheckBox"
         android:text="@string/firstDate"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -69,11 +52,11 @@
         android:id="@+id/datePicker1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/addCategoryTitle"
-        android:layout_below="@+id/addCategoryTitle" />
+        android:layout_alignLeft="@+id/firstDate"
+        android:layout_below="@+id/firstDate" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/secondDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/datePicker2"
@@ -86,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/datePicker1"
-        android:layout_below="@+id/textView2" />
+        android:layout_below="@+id/secondDate" />
 
     <Button
         android:id="@+id/addEventOK"
@@ -96,5 +79,22 @@
         android:layout_centerHorizontal="true"
         android:onClick="okClick"
         android:text="@string/ok" />
+
+    <Spinner
+        android:id="@+id/categorySelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/datePicker2"
+        android:layout_below="@+id/datePicker2" />
+
+    <EditText
+        android:id="@+id/eventDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/categorySelector"
+        android:layout_below="@+id/categorySelector"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="@string/eventDetails" />
 
 </RelativeLayout>
