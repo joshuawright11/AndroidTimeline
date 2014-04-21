@@ -40,8 +40,6 @@ public class MainActivity extends Activity {
 		case R.id.AddCategory:
 			startActivity(new Intent(this, AddCategory.class));
 			break;
-		case R.id.action_settings:
-			break;
 		}
 		
 		return true;
