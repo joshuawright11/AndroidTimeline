@@ -7,12 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-//import javafx.scene.paint.Color;
 
-
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Timeline.java
@@ -76,11 +71,11 @@ public class Timeline implements TimelineAPI,Serializable {
 	/**
 	 * The Color of the timeline
 	 */
-//	private Color colorTL;
+	private int colorTL;
 	/**
 	 * The Color of the Background
 	 */
-//	private Color colorBG;
+	private int colorBG;
 	/**
 	 * whether the timeline has been changed since its last database sync
 	 */
@@ -109,18 +104,18 @@ public class Timeline implements TimelineAPI,Serializable {
 	 * @param axisLabel
 	 *            Unit to render timeline in
 	 */
-//	public Timeline(String name, AxisLabel axisLabel, Color colorTL,
-//			Color colorBG) {
-//		this.name = name;
-//		this.colorBG = colorBG;
-//		this.colorTL = colorTL;
-//		events = new ArrayList<TLEvent>();
-//		this.axisLabel = axisLabel;
-//		this.events = new ArrayList<TLEvent>();
-//		dirty = true;
-//		categories = new ArrayList<Category>();
-//		categories.add(new Category("DEFAULT"));
-//	}
+	public Timeline(String name, AxisLabel axisLabel, int colorTL,
+			int colorBG) {
+		this.name = name;
+		this.colorBG = colorBG;
+		this.colorTL = colorTL;
+		events = new ArrayList<TLEvent>();
+		this.axisLabel = axisLabel;
+		this.events = new ArrayList<TLEvent>();
+		dirty = true;
+		categories = new ArrayList<Category>();
+		categories.add(new Category("DEFAULT"));
+	}
 
 	/**
 	 * Constructor for name, events, and axisLabel
@@ -132,21 +127,21 @@ public class Timeline implements TimelineAPI,Serializable {
 	 * @param axisLabel
 	 *            Unit to render timeline in
 	 */
-//	public Timeline(String name, TLEvent[] events, Color colorTL,
-//			Color colorBG, AxisLabel axisLabel) {
-//		categories = new ArrayList<Category>();
-//		categories.add(new Category("DEFAULT"));
-//		this.name = name;
-//		if (events != null)
-//			this.events = new ArrayList<TLEvent>(Arrays.asList(events));
-//		else
-//			this.events = new ArrayList<TLEvent>();
-//		this.axisLabel = axisLabel;
-//		this.colorBG = colorBG;
-//		this.colorTL = colorTL;
-//		dirty = true;
-//
-//	}
+	public Timeline(String name, TLEvent[] events, int colorTL,
+			int colorBG, AxisLabel axisLabel) {
+		categories = new ArrayList<Category>();
+		categories.add(new Category("DEFAULT"));
+		this.name = name;
+		if (events != null)
+			this.events = new ArrayList<TLEvent>(Arrays.asList(events));
+		else
+			this.events = new ArrayList<TLEvent>();
+		this.axisLabel = axisLabel;
+		this.colorBG = colorBG;
+		this.colorTL = colorTL;
+		dirty = true;
+
+	}
 
 	/**
 	 * Return the unique ID of this event for the database.
@@ -291,35 +286,35 @@ public class Timeline implements TimelineAPI,Serializable {
 	 * 
 	 * @return The Color BG of this Timeline.
 	 */
-//	public Color getColorBG() {
-//		return colorBG;
-//	}
+	public int getColorBG() {
+		return colorBG;
+	}
 
 	/**
 	 * 
 	 * @return The Color of this Timeline.
 	 */
-//	public Color getColorTL() {
-//		return colorTL;
-//	}
+	public int getColorTL() {
+		return colorTL;
+	}
 
 	/**
 	 * 
 	 * @param colorBG
 	 *            Sets the color of this Timeline's background.
 	 */
-//	public void setColorBG(Color colorBG) {
-//		this.colorBG = colorBG;
-//	}
+	public void setColorBG(int colorBG) {
+		this.colorBG = colorBG;
+	}
 
 	/**
 	 * 
 	 * @param colorTL
 	 *            Sets the color of this Timeline.
 	 */
-//	public void setColorTL(Color colorTL) {
-//		this.colorTL = colorTL;
-//	}
+	public void setColorTL(int colorTL) {
+		this.colorTL = colorTL;
+	}
 
 	/**
 	 * @return The AxisLabel of this Timeline.
@@ -462,11 +457,11 @@ public class Timeline implements TimelineAPI,Serializable {
 	 * @param color
 	 *            The new color of this category.
 	 */
-//	public void editCategory(String title, String name, Color color) {
-//		Category c = getCategory(title);
-//		c.setColor(color);
-//		c.setName(name);
-//	}
+	public void editCategory(String title, String name, int color) {
+		Category c = getCategory(title);
+		c.setColor(color);
+		c.setName(name);
+	}
 
 	/**
 	 * 

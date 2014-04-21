@@ -6,13 +6,17 @@
 
 package model;
 
+import java.io.Serializable;
+
+import android.graphics.drawable.Drawable;
+
 //import javafx.scene.image.Image;
 
 /**
  * 
  * @author Kayley Lane
  */
-public class Icon {
+public class Icon implements Serializable{
 	/**
 	 * The name of the image, seperate from its entire path.
 	 */
@@ -21,7 +25,7 @@ public class Icon {
 	/**
 	 * The image associated with this icon.
 	 */
-//	private Image icon;
+	private Drawable icon;
 
 	/**
 	 * The id of this icon
@@ -43,12 +47,12 @@ public class Icon {
 	 * @param path
 	 *            The path to set
 	 */
-//	public Icon(String name, Image icon, String path) {
-//		this.name = name;
-//		this.icon = icon;
-//		this.path = path;
-//		this.setId(-1);
-//	}
+	public Icon(String name, Drawable icon, String path) {
+		this.name = name;
+		this.icon = icon;
+		this.path = path;
+		this.setId(-1);
+	}
 
 	/**
 	 * Get the name of the icon.
@@ -64,9 +68,9 @@ public class Icon {
 	 * 
 	 * @return The image of the icon
 	 */
-//	public Image getImage() {
-//		return icon;
-//	}
+	public Drawable getImage() {
+		return icon;
+	}
 
 	/**
 	 * @return the id

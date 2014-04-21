@@ -3,14 +3,10 @@
  */
 package com.wheaton.cs335.androidtimeline;
 
+import render.TimelineDisplay;
 import model.Timeline;
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**
  * @author josh
@@ -20,23 +16,17 @@ public class TimelineDisplayActivity extends Activity {
 
 	private Timeline timeline;
 	
-	private TextView mTextView = null;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTextView = new TextView(this);
-
-        Timeline timeline = (Timeline) getIntent().getSerializableExtra("TIMELINE");
-
-        if (savedInstanceState == null) {
-        	mTextView.setText(timeline.getName());
-        } else {
-            mTextView.setText(timeline.getName());
-        }
+        setContentView(R.layout.activity_display_timeline);
         
-
-        setContentView(mTextView);
+        //ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView1);
+        TimelineDisplay viewGroup = (TimelineDisplay) findViewById(R.id.timelineDisplay);
+        timeline = (Timeline) getIntent().getSerializableExtra("TIMELINE");
+        viewGroup.initialize(timeline);
+        
     }
 
 	

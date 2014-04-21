@@ -7,7 +7,6 @@
 package model;
 
 import java.io.Serializable;
-
 //import javafx.scene.paint.*;
 import android.graphics.Color;
 
@@ -30,7 +29,7 @@ public class Category implements Serializable{
 	public Category(String name) {
 		this.id = -1;
 		this.name = name;
-//		catColor = Color.web("0x0000FF", 1.0);
+		catColor = Color.parseColor("#0000FF");
 	}
 
 	/**
@@ -61,9 +60,9 @@ public class Category implements Serializable{
 	 * 
 	 * @return The color.
 	 */
-//	public Color getColor() {
-//		return catColor;
-//	}
+	public int getColor() {
+		return catColor;
+	}
 
 	/**
 	 * Sets the name of the category.
@@ -81,9 +80,9 @@ public class Category implements Serializable{
 	 * @param catColor
 	 *            The color to use.
 	 */
-//	public void setColor(Color catColor) {
-//		this.catColor = catColor;
-//	}
+	public void setColor(int catColor) {
+		this.catColor = catColor;
+	}
 
 	/**
 	 * Saves the category. Not in use at the moment (the model saves everything).
