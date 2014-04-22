@@ -5,10 +5,8 @@ import model.Duration;
 import model.Category;
 import model.TLEvent;
 import model.Timeline;
-
 import java.sql.Date;
 import java.util.Arrays;
-
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;

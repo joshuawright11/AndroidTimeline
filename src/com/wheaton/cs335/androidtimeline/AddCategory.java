@@ -1,5 +1,9 @@
 package com.wheaton.cs335.androidtimeline;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import storage.DBHelper;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -11,12 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.graphics.Color;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.os.Build;
 import model.Category;
+import model.Timeline;
 
 public class AddCategory extends Activity{
 	
@@ -25,6 +32,10 @@ public class AddCategory extends Activity{
 	PlaceholderFragment phf;
 	private TextView categoryTitle;
 	private boolean initialized;
+	
+	static ArrayList<Timeline> timelines;
+	
+	static DBHelper database;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +61,10 @@ public class AddCategory extends Activity{
 		}
 
 		@Override
-		public void onStartTrackingTouch(SeekBar seekBar) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void onStartTrackingTouch(SeekBar seekBar) {}
 
 		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {
-			// TODO Auto-generated method stub
-			
-		}
+		public void onStopTrackingTouch(SeekBar seekBar) {}
 		
 	}
 	
@@ -82,8 +87,10 @@ public class AddCategory extends Activity{
 		red = rsb.getProgress();
 		green = gsb.getProgress();
 		blue = bsb.getProgress();
+		
 		Category cat = new Category(((TextView) findViewById(R.id.categoryName)).getText().toString(),Color.rgb(red,green,blue));
-		//save category
+		//uncomment when concrete DBHelper is available
+		//database.saveCategory(cat, timelines.get(((Spinner) findViewById(R.id.addEventTimelineSelector)).getSelectedItemPosition()).getName());
 		
 		Intent intent = new Intent(this, MainActivity.class);
 	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
@@ -112,6 +119,18 @@ public class AddCategory extends Activity{
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_add_category,
 					container, false);
+			
+			//uncomment when concrete DBHelper is available
+			/*timelines = new ArrayList<Timeline>(Arrays.asList(database.getTimelines()));
+			
+			ArrayList<String> timeNames = new ArrayList<String>();
+			for(Timeline t : timelines)
+				timeNames.add(t.getName());
+			ArrayAdapter<String> adp1;
+			adp1 = new ArrayAdapter<String> (this.getActivity(), R.id.addCategoryTimelineSelector);
+			Spinner CatSelector = (Spinner) rootView.findViewById(R.id.addCategoryTimelineSelector);
+			CatSelector.setAdapter(adp1);
+			*/
 			
 			rsb = (SeekBar) rootView.findViewById(R.id.redSelecter);
 			gsb = (SeekBar) rootView.findViewById(R.id.greenSelecter);
