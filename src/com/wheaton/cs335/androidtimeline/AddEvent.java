@@ -1,6 +1,11 @@
 package com.wheaton.cs335.androidtimeline;
 
 import model.Atomic;
+import model.Duration;
+import model.Category;
+import model.TLEvent;
+import model.Timeline;
+import java.sql.Date;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -15,11 +20,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.os.Build;
+
+import java.util.ArrayList;
+
+import storage.DBHelper;
 
 public class AddEvent extends Activity {
 	
 	boolean checkBox;
+	
+	ArrayList<Category> categories;
+	
+	ArrayList<Timeline> timelines;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +49,26 @@ public class AddEvent extends Activity {
 	}
 	
 	public void okClick(View view) {
-		/*String title = ((EditText) findViewById(R.id.EventTitle)).getText().toString();
+		String title = ((EditText) findViewById(R.id.EventTitle)).getText().toString();
+		Date firstDate = new Date(((DatePicker) findViewById(R.id.datePicker1)).getCalendarView().getDate());
+		Category category = categories.get(((Spinner) findViewById(R.id.categorySelector)).getSelectedItemPosition());
+		//iconIndex?
+		int iconIndex = 1;
+		String description = ((EditText) findViewById(R.id.eventDetails)).getText().toString();
+		
+		TLEvent event;
 		
 		if(!checkBox){
-			Atomic event = new Atomic(title,);
+			event = new Atomic(title,category,firstDate,iconIndex,description);
+		}else{
+			Date secondDate = new Date(((DatePicker) findViewById(R.id.datePicker2)).getCalendarView().getDate());
+			event = new Duration(title,category,firstDate,secondDate,iconIndex,description);
 		}
-		*/
-		// create event and add it to the database, then repaint the display
+		
+		//implement this code
+		//DBHelper db = null;
+		//event.save(db, timelines.get(((Spinner) findViewById(R.id.addEventTimelineSelector)).getSelectedItemPosition()).getName());
+		
 		Intent intent = new Intent(this, MainActivity.class);
 	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
 	    startActivity(intent);
