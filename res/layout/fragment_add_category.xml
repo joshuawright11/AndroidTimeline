@@ -69,4 +69,11 @@
         android:onClick="okClick"
         android:text="@string/ok" />
 
+    <Spinner
+        android:id="@+id/addCategoryTimelineSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/blueSelecter"
+        android:layout_below="@+id/blueSelecter" />
+
 </RelativeLayout>

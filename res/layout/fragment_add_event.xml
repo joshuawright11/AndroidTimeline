@@ -87,7 +87,6 @@
         android:id="@+id/addEventOK"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/eventDetails"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="okClick"
@@ -100,12 +99,19 @@
         android:layout_alignLeft="@+id/datePicker2"
         android:layout_below="@+id/datePicker2" />
 
+    <Spinner
+        android:id="@+id/addEventTimelineSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/categorySelector"
+        android:layout_below="@+id/categorySelector" />
+
     <EditText
         android:id="@+id/eventDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/categorySelector"
-        android:layout_below="@+id/categorySelector"
+        android:layout_alignLeft="@+id/addEventTimelineSelector"
+        android:layout_below="@+id/addEventTimelineSelector"
         android:ems="10"
         android:inputType="textMultiLine"
         android:text="@string/eventDetails" />
