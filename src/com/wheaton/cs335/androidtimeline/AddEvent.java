@@ -5,7 +5,10 @@ import model.Duration;
 import model.Category;
 import model.TLEvent;
 import model.Timeline;
+
 import java.sql.Date;
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -16,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.DatePicker;
@@ -31,9 +35,11 @@ public class AddEvent extends Activity {
 	
 	boolean checkBox;
 	
-	ArrayList<Category> categories;
+	static ArrayList<Category> categories;
 	
-	ArrayList<Timeline> timelines;
+	static ArrayList<Timeline> timelines;
+	
+	static DBHelper database;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,8 @@ public class AddEvent extends Activity {
 	public void okClick(View view) {
 		String title = ((EditText) findViewById(R.id.EventTitle)).getText().toString();
 		Date firstDate = new Date(((DatePicker) findViewById(R.id.datePicker1)).getCalendarView().getDate());
-		Category category = categories.get(((Spinner) findViewById(R.id.categorySelector)).getSelectedItemPosition());
+		//Category category = categories.get(((Spinner) findViewById(R.id.categorySelector)).getSelectedItemPosition());
+		Category category = null;
 		//iconIndex?
 		int iconIndex = 1;
 		String description = ((EditText) findViewById(R.id.eventDetails)).getText().toString();
@@ -65,9 +72,8 @@ public class AddEvent extends Activity {
 			event = new Duration(title,category,firstDate,secondDate,iconIndex,description);
 		}
 		
-		//implement this code
-		//DBHelper db = null;
-		//event.save(db, timelines.get(((Spinner) findViewById(R.id.addEventTimelineSelector)).getSelectedItemPosition()).getName());
+		//uncomment when concrete DBHelper is available
+		//event.save(database, timelines.get(((Spinner) findViewById(R.id.addEventTimelineSelector)).getSelectedItemPosition()).getName());
 		
 		Intent intent = new Intent(this, MainActivity.class);
 	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
@@ -108,6 +114,30 @@ public class AddEvent extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_add_event,
 					container, false);
+			
+			//uncomment when concrete DBHelper is available
+			/*
+			timelines = new ArrayList<Timeline>(Arrays.asList(database.getTimelines()));
+			categories = new ArrayList<Category>(database.getCategories().keySet());
+			
+			ArrayList<String> catNames = new ArrayList<String>();
+			for(Category c : categories)
+				catNames.add(c.getName());
+			ArrayList<String> timeNames = new ArrayList<String>();
+			for(Timeline t : timelines)
+				timeNames.add(t.getName());
+			
+			ArrayAdapter<String> adp1;
+			adp1 = new ArrayAdapter<String> (this.getActivity(), R.id.categorySelector);
+			Spinner CatSelector = (Spinner) rootView.findViewById(R.id.categorySelector);
+			CatSelector.setAdapter(adp1);
+			
+			ArrayAdapter<String> adp2;
+			adp2 = new ArrayAdapter<String> (this.getActivity(), R.id.addEventTimelineSelector);
+			Spinner TimeSelector = (Spinner) rootView.findViewById(R.id.addEventTimelineSelector);
+			TimeSelector.setAdapter(adp2);
+			*/
+			
 			return rootView;
 		}
 	}
