@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -125,41 +126,43 @@ public class AndroidDBHelper implements DBHelperAPI {
 										// methods
 		open();
 		try {
-			resultSet = statement
-					.executeQuery("SELECT name from sqlite_master WHERE type = \"table\" "
+			Cursor results = database
+					.rawQuery("SELECT name from sqlite_master WHERE type = \"table\" "
 							+ "and name != \"sqlite_sequence\" and name != \"timeline_info\" and name != \"timeline_categories\" "
-							+ "and name != \"timeline_icons\";");
+							+ "and name != \"timeline_icons\";", null);
+			results.moveToFirst();
 			ArrayList<String> timelineNames = new ArrayList<String>();
 			int numTimelines = 0;
-			while (resultSet.next()) { // Get all timeline names
+			while (results.moveToNext()) { // Get all timeline names
 				numTimelines++;
-				timelineNames.add(resultSet.getString(1));
+				timelineNames.add(results.getString(1));
 			}
 			Timeline[] timelines = new Timeline[numTimelines];
 			for (int j = 0; j < numTimelines; j++) { // Get all timelines event
 														// arrays
-				resultSet = statement.executeQuery("select * from "
-						+ timelineNames.get(j) + ";");
+				results = database.rawQuery("select * from "
+						+ timelineNames.get(j) + ";", null);
+				results.moveToFirst();
 				ArrayList<TLEvent> events = new ArrayList<TLEvent>();
-				while (resultSet.next()) { // Get all events for the event
-					String name = resultSet.getString("eventName");
-					String type = resultSet.getString("type");
+				while (results.moveToNext()) { // Get all events for the event
+					String name = results.getString(results.getColumnIndex("eventName"));
+					String type = results.getString(results.getColumnIndex("type"));
 					TLEvent event = null;
 					if (type.equals("atomic")) {
-						String cat = resultSet.getString("category");
+						String cat = results.getString(results.getColumnIndex("category"));
 						Category category = new Category(cat);
-						Date startDate = resultSet.getDate("startDate");
-						int iconIndex = resultSet.getInt("icon");
-						String description = resultSet.getString("description");
+						Date startDate = new Date(results.getLong(results.getColumnIndex("startDate")));
+						int iconIndex = results.getInt(results.getColumnIndex("icon"));
+						String description = results.getString(results.getColumnIndex("description"));
 						event = new Atomic(name, category, startDate,
 								iconIndex, description);
 					} else if (type.equals("duration")) {
-						String cat = resultSet.getString("category");
+						String cat = results.getString(results.getColumnIndex("category"));
 						Category category = new Category(cat);
-						Date startDate = resultSet.getDate("startDate");
-						Date endDate = resultSet.getDate("endDate");
-						int iconIndex = resultSet.getInt("icon");
-						String description = resultSet.getString("description");
+						Date startDate = new Date(results.getLong(results.getColumnIndex("startDate")));
+						Date endDate = new Date(results.getLong(results.getColumnIndex("endDate")));
+						int iconIndex = results.getInt(results.getColumnIndex("icon"));
+						String description = results.getString(results.getColumnIndex("description"));
 						event = new Duration(name, category, startDate,
 								endDate, iconIndex, description);
 					} else {
@@ -191,176 +194,176 @@ public class AndroidDBHelper implements DBHelperAPI {
 
 	@Override
 	public boolean saveTimeline(Timeline timeline) {
-		String tlName = timeline.getName();
-		open();
-		try {
-			statement
-					.executeUpdate("CREATE TABLE "
-							+ tlName
-							+ " ("
-							+ ID
-							+ ",eventName TEXT, type TEXT, startDate DATETIME, endDate DATETIME, "
-							+ "category TEXT, icon INTEGER, description TEXT);");
-			writeTimelineInfo(timeline);
-			setTimelineID(timeline);
-			
-		} catch (SQLException e) {
-			if (e.getMessage().contains("already exists")) {
-				System.out.println("A timeline with that name already exists!");
-				close();
-				return false;
-			}
-			e.printStackTrace();
-		}
-		close();
-	
-		if (timeline.getEvents() == null) {
-			return true; // did not save any events, timeline still created
-		}
-		open();
-		for (TLEvent event : timeline.getEvents()) {
-			try {
-				if (event instanceof Atomic) {
-					writeEvent((Atomic) event, tlName);
-				} else if (event instanceof Duration) {
-					writeEvent((Duration) event, tlName);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (NullPointerException e) {
-				System.out.println("Nothing!");
-			}
-		}
-		close();
+//		String tlName = timeline.getName();
+//		open();
+//		try {
+//			statement
+//					.executeUpdate("CREATE TABLE "
+//							+ tlName
+//							+ " ("
+//							+ ID
+//							+ ",eventName TEXT, type TEXT, startDate DATETIME, endDate DATETIME, "
+//							+ "category TEXT, icon INTEGER, description TEXT);");
+//			writeTimelineInfo(timeline);
+//			setTimelineID(timeline);
+//			
+//		} catch (SQLException e) {
+//			if (e.getMessage().contains("already exists")) {
+//				System.out.println("A timeline with that name already exists!");
+//				close();
+//				return false;
+//			}
+//			e.printStackTrace();
+//		}
+//		close();
+//	
+//		if (timeline.getEvents() == null) {
+//			return true; // did not save any events, timeline still created
+//		}
+//		open();
+//		for (TLEvent event : timeline.getEvents()) {
+//			try {
+//				if (event instanceof Atomic) {
+//					writeEvent((Atomic) event, tlName);
+//				} else if (event instanceof Duration) {
+//					writeEvent((Duration) event, tlName);
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			} catch (NullPointerException e) {
+//				System.out.println("Nothing!");
+//			}
+//		}
+//		close();
 		return true;
 	}
 
 	@Override
 	public boolean removeTimeline(Timeline timeline) {
-		open();
-		try {
-			statement.executeUpdate("DROP TABLE IF EXISTS'"
-					+ timeline.getName() + "';"); // if exists is probably bad
-													// for this
-			removeTimelineInfo(timeline.getID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		close();
+//		open();
+//		try {
+//			statement.executeUpdate("DROP TABLE IF EXISTS'"
+//					+ timeline.getName() + "';"); // if exists is probably bad
+//													// for this
+//			removeTimelineInfo(timeline.getID());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		close();
 		return true;
 	}
 
 	@Override
 	public boolean editTimelineInfo(Timeline timeline) {
-		open();
-		try {
-			changeTimelineName(timeline);
-			updateTimelineInfo(timeline);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			close();
-			return false;
-		}
-		close();
+//		open();
+//		try {
+//			changeTimelineName(timeline);
+//			updateTimelineInfo(timeline);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			close();
+//			return false;
+//		}
+//		close();
 		return true;
 	}
 
-	/**
-	 * Gets the name of a timeline, based on its unique id
-	 * 
-	 * @param timeline
-	 *            the timeline whose name will be fetched
-	 * @return the name of the timeline
-	 * @throws SQLException
-	 *             because there are databases
-	 */
-	private String getName(Timeline timeline) throws SQLException {
-		String SELECT_LABEL = "SELECT timelineName FROM timeline_info WHERE _id = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setInt(1, timeline.getID());
-		resultSet = pstmt.executeQuery();
-		String oldName = resultSet.getString(1);
-		return oldName;
-	}
+//	/**
+//	 * Gets the name of a timeline, based on its unique id
+//	 * 
+//	 * @param timeline
+//	 *            the timeline whose name will be fetched
+//	 * @return the name of the timeline
+//	 * @throws SQLException
+//	 *             because there are databases
+//	 */
+//	private String getName(Timeline timeline) throws SQLException {
+//		String SELECT_LABEL = "SELECT timelineName FROM timeline_info WHERE _id = ?;";
+//		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
+//		pstmt.setInt(1, timeline.getID());
+//		resultSet = pstmt.executeQuery();
+//		String oldName = resultSet.getString(1);
+//		return oldName;
+//	}
 
-	/**
-	 * Changes the name of a timeline based on unique id
-	 * 
-	 * @param timeline
-	 *            the timeline whose name will be changed
-	 * @throws SQLException
-	 *             because there are databases
-	 */
-	private void changeTimelineName(Timeline timeline) throws SQLException {
-		String oldName = getName(timeline);
-		String newName = timeline.getName();
-		if (oldName.equals(newName))
-			return;
-		String SELECT_LABEL = "ALTER TABLE \"" + oldName + "\" RENAME TO \""
-				+ newName + "\";";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.execute();
-	}
+//	/**
+//	 * Changes the name of a timeline based on unique id
+//	 * 
+//	 * @param timeline
+//	 *            the timeline whose name will be changed
+//	 * @throws SQLException
+//	 *             because there are databases
+//	 */
+//	private void changeTimelineName(Timeline timeline) throws SQLException {
+//		String oldName = getName(timeline);
+//		String newName = timeline.getName();
+//		if (oldName.equals(newName))
+//			return;
+//		String SELECT_LABEL = "ALTER TABLE \"" + oldName + "\" RENAME TO \""
+//				+ newName + "\";";
+//		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
+//		pstmt.execute();
+//	}
 
-	/**
-	 * Uses prepared statements to insert the timelineName and axisLabel into
-	 * the timeline_info table
-	 * 
-	 * @param timelineName
-	 *            the timeline of the axisLabel to write
-	 * @param axisLabel
-	 *            the axisLabel enum value
-	 * @throws SQLException
-	 *             because there are databases
-	 */
-	private void writeTimelineInfo(Timeline timeline) throws SQLException {
-		String INSERT_LABEL = "INSERT INTO timeline_info (timelineName, axisLabel, backgroundColor, axisColor) VALUES "
-				+ "(?,?,?,?);";
-		PreparedStatement pstmt = connection.prepareStatement(INSERT_LABEL);
-		pstmt.setString(1, timeline.getName());
-		pstmt.setString(2, timeline.getAxisLabel().name());
-		pstmt.setString(3, timeline.getColorBG()+"");
-		pstmt.setString(4, timeline.getColorTL()+"");
-		pstmt.executeUpdate();
-	}
+//	/**
+//	 * Uses prepared statements to insert the timelineName and axisLabel into
+//	 * the timeline_info table
+//	 * 
+//	 * @param timelineName
+//	 *            the timeline of the axisLabel to write
+//	 * @param axisLabel
+//	 *            the axisLabel enum value
+//	 * @throws SQLException
+//	 *             because there are databases
+//	 */
+//	private void writeTimelineInfo(Timeline timeline) throws SQLException {
+//		String INSERT_LABEL = "INSERT INTO timeline_info (timelineName, axisLabel, backgroundColor, axisColor) VALUES "
+//				+ "(?,?,?,?);";
+//		PreparedStatement pstmt = connection.prepareStatement(INSERT_LABEL);
+//		pstmt.setString(1, timeline.getName());
+//		pstmt.setString(2, timeline.getAxisLabel().name());
+//		pstmt.setString(3, timeline.getColorBG()+"");
+//		pstmt.setString(4, timeline.getColorTL()+"");
+//		pstmt.executeUpdate();
+//	}
 
-	/**
-	 * Syncs the database to this timeline's info. Uses id to access the
-	 * timeline in the database
-	 * 
-	 * 
-	 * @param timeline
-	 *            the timeline to update
-	 * @throws SQLException
-	 *             because there are databases
-	 */
-	private void updateTimelineInfo(Timeline timeline) throws SQLException {
-	
-		String UPDATE_NAME_LABEL = " UPDATE timeline_info SET timelineName=? WHERE _id=?;";
-		PreparedStatement pstmt = connection
-				.prepareStatement(UPDATE_NAME_LABEL);
-		pstmt.setString(1, timeline.getName());
-		pstmt.setInt(2, timeline.getID());
-		pstmt.executeUpdate();
-	
-		String UPDATE_AXIS_LABEL = " UPDATE timeline_info SET axisLabel=? WHERE _id=?;";
-		pstmt = connection.prepareStatement(UPDATE_AXIS_LABEL);
-		pstmt.setString(1, timeline.getAxisLabel().name());
-		pstmt.setInt(2, timeline.getID());
-		pstmt.executeUpdate();
-	
-		String UPDATE_BG_LABEL = " UPDATE timeline_info SET backgroundColor=? WHERE _id=?;";
-		pstmt = connection.prepareStatement(UPDATE_BG_LABEL);
-		pstmt.setString(1, timeline.getColorBG()+"");
-		pstmt.setInt(2, timeline.getID());
-		pstmt.executeUpdate();
-	
-		String UPDATE_AXISCOLOR_LABEL = " UPDATE timeline_info SET axisColor=? WHERE _id=?;";
-		pstmt = connection.prepareStatement(UPDATE_AXISCOLOR_LABEL);
-		pstmt.setString(1, timeline.getColorTL()+"");
-		pstmt.setInt(2, timeline.getID());
-		pstmt.executeUpdate();
-	}
+//	/**
+//	 * Syncs the database to this timeline's info. Uses id to access the
+//	 * timeline in the database
+//	 * 
+//	 * 
+//	 * @param timeline
+//	 *            the timeline to update
+//	 * @throws SQLException
+//	 *             because there are databases
+//	 */
+//	private void updateTimelineInfo(Timeline timeline) throws SQLException {
+//		throw new SQLException();
+//		String UPDATE_NAME_LABEL = " UPDATE timeline_info SET timelineName=? WHERE _id=?;";
+//		PreparedStatement pstmt = connection
+//				.prepareStatement(UPDATE_NAME_LABEL);
+//		pstmt.setString(1, timeline.getName());
+//		pstmt.setInt(2, timeline.getID());
+//		pstmt.executeUpdate();
+//	
+//		String UPDATE_AXIS_LABEL = " UPDATE timeline_info SET axisLabel=? WHERE _id=?;";
+//		pstmt = connection.prepareStatement(UPDATE_AXIS_LABEL);
+//		pstmt.setString(1, timeline.getAxisLabel().name());
+//		pstmt.setInt(2, timeline.getID());
+//		pstmt.executeUpdate();
+//	
+//		String UPDATE_BG_LABEL = " UPDATE timeline_info SET backgroundColor=? WHERE _id=?;";
+//		pstmt = connection.prepareStatement(UPDATE_BG_LABEL);
+//		pstmt.setString(1, timeline.getColorBG()+"");
+//		pstmt.setInt(2, timeline.getID());
+//		pstmt.executeUpdate();
+//	
+//		String UPDATE_AXISCOLOR_LABEL = " UPDATE timeline_info SET axisColor=? WHERE _id=?;";
+//		pstmt = connection.prepareStatement(UPDATE_AXISCOLOR_LABEL);
+//		pstmt.setString(1, timeline.getColorTL()+"");
+//		pstmt.setInt(2, timeline.getID());
+//		pstmt.executeUpdate();
+//	}
 
 	/**
 	 * Sets a timeline's id field to what its unique id in the timeline_info
@@ -379,21 +382,21 @@ public class AndroidDBHelper implements DBHelperAPI {
 		timeline.setID(id);
 	}
 
-	/**
-	 * Uses prepared statements to remove the timeline's info from the
-	 * timeline_info table
-	 * 
-	 * @param id
-	 *            the id of the timeline to remove the info of
-	 * @throws SQLException
-	 *             because there are databases
-	 */
-	private void removeTimelineInfo(int id) throws SQLException {
-		String REMOVE_LABEL = "DELETE FROM timeline_info WHERE _id = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(REMOVE_LABEL);
-		pstmt.setInt(1, id);
-		pstmt.executeUpdate();
-	}
+//	/**
+//	 * Uses prepared statements to remove the timeline's info from the
+//	 * timeline_info table
+//	 * 
+//	 * @param id
+//	 *            the id of the timeline to remove the info of
+//	 * @throws SQLException
+//	 *             because there are databases
+//	 */
+//	private void removeTimelineInfo(int id) throws SQLException {
+//		String REMOVE_LABEL = "DELETE FROM timeline_info WHERE _id = ?;";
+//		PreparedStatement pstmt = connection.prepareStatement(REMOVE_LABEL);
+//		pstmt.setInt(1, id);
+//		pstmt.executeUpdate();
+//	}
 
 	/**
 	 * @param timelineName
@@ -477,78 +480,80 @@ public class AndroidDBHelper implements DBHelperAPI {
 
 	@Override
 	public boolean removeEvent(TLEvent event, String timelineName) {
-		open();
-		try {
-			String REMOVE_EVENT_LABEL = "DELETE FROM " + timelineName
-					+ " WHERE _id = ?;";
-			PreparedStatement pstmt = connection
-					.prepareStatement(REMOVE_EVENT_LABEL);
-			pstmt.setInt(1, event.getID());
-			pstmt.executeUpdate();
-			close();
-			return true;
-		} catch (SQLException sql) {
-			close();
-			return false;
-		}
+//		open();
+//		try {
+//			String REMOVE_EVENT_LABEL = "DELETE FROM " + timelineName
+//					+ " WHERE _id = ?;";
+//			PreparedStatement pstmt = connection
+//					.prepareStatement(REMOVE_EVENT_LABEL);
+//			pstmt.setInt(1, event.getID());
+//			pstmt.executeUpdate();
+//			close();
+//			return true;
+//		} catch (SQLException sql) {
+//			close();
+//			return false;
+//		}
+		return false;
 	}
 
 	@Override
 	public boolean editEvent(TLEvent event, String timelineName) {
-		open();
-		try {
-			String UPDATE_NAME_LABEL = " UPDATE " + timelineName
-					+ " SET eventName=? WHERE _id=?;";
-			PreparedStatement pstmt = connection
-					.prepareStatement(UPDATE_NAME_LABEL);
-			pstmt.setString(1, event.getName());
-			pstmt.setInt(2, event.getID());
-			pstmt.executeUpdate();
-
-			String UPDATE_STARTDATE_LABEL = " UPDATE " + timelineName
-					+ " SET startDate=? WHERE _id=?;";
-			pstmt = connection.prepareStatement(UPDATE_STARTDATE_LABEL);
-			pstmt.setDate(1, event.getStartDate());
-			pstmt.setInt(2, event.getID());
-			pstmt.executeUpdate();
-
-			if (event instanceof Duration) {
-				String UPDATE_ENDDATE_LABEL = " UPDATE " + timelineName
-						+ " SET endDate=? WHERE _id=?;";
-				pstmt = connection.prepareStatement(UPDATE_ENDDATE_LABEL);
-				pstmt.setDate(1, ((Duration) event).getEndDate());
-				pstmt.setInt(2, event.getID());
-				pstmt.executeUpdate();
-			}
-
-			String UPDATE_CATEGORY_LABEL = " UPDATE " + timelineName
-					+ " SET category=? WHERE _id=?;";
-			pstmt = connection.prepareStatement(UPDATE_CATEGORY_LABEL);
-			pstmt.setString(1, event.getCategory().getName());
-			pstmt.setInt(2, event.getID());
-			pstmt.executeUpdate();
-
-			String UPDATE_ICON_LABEL = " UPDATE " + timelineName
-					+ " SET icon=? WHERE _id=?;";
-			pstmt = connection.prepareStatement(UPDATE_ICON_LABEL);
-			pstmt.setInt(1, event.getIcon().getId());
-			pstmt.setInt(2, event.getID());
-			pstmt.executeUpdate();
-
-			String UPDATE_DESCRIPTION_LABEL = " UPDATE " + timelineName
-					+ " SET description=? WHERE _id=?;";
-			pstmt = connection.prepareStatement(UPDATE_DESCRIPTION_LABEL);
-			pstmt.setString(1, event.getDescription());
-			pstmt.setInt(2, event.getID());
-			pstmt.executeUpdate();
-
-			close();
-			return true;
-		} catch (SQLException sql) {
-			sql.printStackTrace();
-			close();
-			return false;
-		}
+//		open();
+//		try {
+//			String UPDATE_NAME_LABEL = " UPDATE " + timelineName
+//					+ " SET eventName=? WHERE _id=?;";
+//			PreparedStatement pstmt = connection
+//					.prepareStatement(UPDATE_NAME_LABEL);
+//			pstmt.setString(1, event.getName());
+//			pstmt.setInt(2, event.getID());
+//			pstmt.executeUpdate();
+//
+//			String UPDATE_STARTDATE_LABEL = " UPDATE " + timelineName
+//					+ " SET startDate=? WHERE _id=?;";
+//			pstmt = connection.prepareStatement(UPDATE_STARTDATE_LABEL);
+//			pstmt.setDate(1, event.getStartDate());
+//			pstmt.setInt(2, event.getID());
+//			pstmt.executeUpdate();
+//
+//			if (event instanceof Duration) {
+//				String UPDATE_ENDDATE_LABEL = " UPDATE " + timelineName
+//						+ " SET endDate=? WHERE _id=?;";
+//				pstmt = connection.prepareStatement(UPDATE_ENDDATE_LABEL);
+//				pstmt.setDate(1, ((Duration) event).getEndDate());
+//				pstmt.setInt(2, event.getID());
+//				pstmt.executeUpdate();
+//			}
+//
+//			String UPDATE_CATEGORY_LABEL = " UPDATE " + timelineName
+//					+ " SET category=? WHERE _id=?;";
+//			pstmt = connection.prepareStatement(UPDATE_CATEGORY_LABEL);
+//			pstmt.setString(1, event.getCategory().getName());
+//			pstmt.setInt(2, event.getID());
+//			pstmt.executeUpdate();
+//
+//			String UPDATE_ICON_LABEL = " UPDATE " + timelineName
+//					+ " SET icon=? WHERE _id=?;";
+//			pstmt = connection.prepareStatement(UPDATE_ICON_LABEL);
+//			pstmt.setInt(1, event.getIcon().getId());
+//			pstmt.setInt(2, event.getID());
+//			pstmt.executeUpdate();
+//
+//			String UPDATE_DESCRIPTION_LABEL = " UPDATE " + timelineName
+//					+ " SET description=? WHERE _id=?;";
+//			pstmt = connection.prepareStatement(UPDATE_DESCRIPTION_LABEL);
+//			pstmt.setString(1, event.getDescription());
+//			pstmt.setInt(2, event.getID());
+//			pstmt.executeUpdate();
+//
+//			close();
+//			return true;
+//		} catch (SQLException sql) {
+//			sql.printStackTrace();
+//			close();
+//			return false;
+//		}
+		return false;
 	}
 
 	/**
@@ -672,46 +677,48 @@ public class AndroidDBHelper implements DBHelperAPI {
 
 	@Override
 	public boolean removeCategory(Category category, String timelineName) {
-		open();
-		try {
-			String REMOVE_CATEGORY_LABEL = "DELETE FROM timeline_categories WHERE _id = ? and timelineName = ?;";
-			PreparedStatement pstmt = connection
-					.prepareStatement(REMOVE_CATEGORY_LABEL);
-			pstmt.setInt(1, category.getID());
-			pstmt.setString(2, timelineName);
-			pstmt.executeUpdate();
-			close();
-			return true;
-		} catch (SQLException sql) {
-			close();
-			return false;
-		}
+//		open();
+//		try {
+//			String REMOVE_CATEGORY_LABEL = "DELETE FROM timeline_categories WHERE _id = ? and timelineName = ?;";
+//			PreparedStatement pstmt = connection
+//					.prepareStatement(REMOVE_CATEGORY_LABEL);
+//			pstmt.setInt(1, category.getID());
+//			pstmt.setString(2, timelineName);
+//			pstmt.executeUpdate();
+//			close();
+//			return true;
+//		} catch (SQLException sql) {
+//			close();
+//			return false;
+//		}
+		return false;
 	}
 
 	@Override
 	public boolean editCategory(Category category, String timelineName) {
-		open();
-		try {
-			String UPDATE_NAME_LABEL = " UPDATE timeline_categories SET categoryName=? WHERE _id=?;";
-			PreparedStatement pstmt2 = connection
-					.prepareStatement(UPDATE_NAME_LABEL);
-			pstmt2.setString(1, category.getName());
-			pstmt2.setInt(2, category.getID());
-			pstmt2.executeUpdate();
-	
-			String UPDATE_COLOR_LABEL = " UPDATE timeline_categories SET color=? WHERE _id=?;";
-			pstmt2 = connection.prepareStatement(UPDATE_COLOR_LABEL);
-			pstmt2.setString(1, category.getColor()+"");
-			pstmt2.setInt(2, category.getID());
-			pstmt2.executeUpdate();
-	
-			close();
-			return true;
-		} catch (SQLException sql) {
-			sql.printStackTrace();
-			close();
-			return false;
-		}
+//		open();
+//		try {
+//			String UPDATE_NAME_LABEL = " UPDATE timeline_categories SET categoryName=? WHERE _id=?;";
+//			PreparedStatement pstmt2 = connection
+//					.prepareStatement(UPDATE_NAME_LABEL);
+//			pstmt2.setString(1, category.getName());
+//			pstmt2.setInt(2, category.getID());
+//			pstmt2.executeUpdate();
+//	
+//			String UPDATE_COLOR_LABEL = " UPDATE timeline_categories SET color=? WHERE _id=?;";
+//			pstmt2 = connection.prepareStatement(UPDATE_COLOR_LABEL);
+//			pstmt2.setString(1, category.getColor()+"");
+//			pstmt2.setInt(2, category.getID());
+//			pstmt2.executeUpdate();
+//	
+//			close();
+//			return true;
+//		} catch (SQLException sql) {
+//			sql.printStackTrace();
+//			close();
+//			return false;
+//		}
+		return false;
 	}
 
 	/**
@@ -735,79 +742,80 @@ public class AndroidDBHelper implements DBHelperAPI {
 
 	@Override
 	public ArrayList<Icon> getIcons() {
-		open();
-		try {
-			ResultSet resultSet2 = statement
-					.executeQuery("SELECT * FROM timeline_icons;");
-			ArrayList<Icon> icons = new ArrayList<Icon>();
-			while (resultSet2.next()) { // Get all category info
-				int id = resultSet2.getInt(1);
-				String name = resultSet2.getString("iconName");
-				InputStream is = resultSet2.getBinaryStream("icon");
-				Icon icon = new Icon(name, Bitmap.createScaledBitmap(BitmapFactory.decodeStream(is),20,20,false), ""); // path is no longer necessary
-				icon.setId(id);
-				icons.add(icon);
-			}
-			close();
-			return icons;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		close();
-		return null;
+//		open();
+//		try {
+//			ResultSet resultSet2 = statement
+//					.executeQuery("SELECT * FROM timeline_icons;");
+//			ArrayList<Icon> icons = new ArrayList<Icon>();
+//			while (resultSet2.next()) { // Get all category info
+//				int id = resultSet2.getInt(1);
+//				String name = resultSet2.getString("iconName");
+//				InputStream is = resultSet2.getBinaryStream("icon");
+//				Icon icon = new Icon(name, Bitmap.createScaledBitmap(BitmapFactory.decodeStream(is),20,20,false), ""); // path is no longer necessary
+//				icon.setId(id);
+//				icons.add(icon);
+//			}
+//			close();
+//			return icons;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		close();
+		return null;	
 	}
 
 	@Override
 	public void saveIcon(Icon icon) {
-		String INSERT_ICON = "INSERT INTO timeline_icons (iconName,icon) VALUES (?,?);";
-		open();
-		try {
-			PreparedStatement pstmt = connection.prepareStatement(INSERT_ICON);
-			File f = new File(icon.getPath());
-			FileInputStream fin = new FileInputStream(f);
-			pstmt.setString(1, icon.getName());
-			pstmt.setBinaryStream(2, fin, (int) f.length());
-			pstmt.executeUpdate();
-			setIconID(icon);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			System.out.println("That file can't be found!");
-			e.printStackTrace();
-		}
-		close();
+//		String INSERT_ICON = "INSERT INTO timeline_icons (iconName,icon) VALUES (?,?);";
+//		open();
+//		try {
+//			PreparedStatement pstmt = connection.prepareStatement(INSERT_ICON);
+//			File f = new File(icon.getPath());
+//			FileInputStream fin = new FileInputStream(f);
+//			pstmt.setString(1, icon.getName());
+//			pstmt.setBinaryStream(2, fin, (int) f.length());
+//			pstmt.executeUpdate();
+//			setIconID(icon);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} catch (FileNotFoundException e) {
+//			System.out.println("That file can't be found!");
+//			e.printStackTrace();
+//		}
+//		close();
 	}
 
 	@Override
 	public boolean removeIcon(Icon icon) {
-		open();
-		try {
-			String REMOVE_ICON_LABEL = "DELETE FROM timeline_icons WHERE _id = ?;";
-			PreparedStatement pstmt = connection
-					.prepareStatement(REMOVE_ICON_LABEL);
-			pstmt.setInt(1, icon.getId());
-			pstmt.executeUpdate();
-			close();
-			return true;
-		} catch (SQLException sql) {
-			close();
-			return false;
-		}
+//		open();
+//		try {
+//			String REMOVE_ICON_LABEL = "DELETE FROM timeline_icons WHERE _id = ?;";
+//			PreparedStatement pstmt = connection
+//					.prepareStatement(REMOVE_ICON_LABEL);
+//			pstmt.setInt(1, icon.getId());
+//			pstmt.executeUpdate();
+//			close();
+//			return true;
+//		} catch (SQLException sql) {
+//			close();
+//			return false;
+//		}
+		return false;
 	}
 
-	/**
-	 * Sets the unique id of an icon based on its database unique id
-	 * 
-	 * @param icon
-	 *            the icon whose id will be set
-	 */
-	private void setIconID(Icon icon) throws SQLException {
-		String SELECT_LABEL = "SELECT _id FROM timeline_icons WHERE iconName = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setString(1, icon.getName());
-		ResultSet resultSet2 = pstmt.executeQuery();
-		int id = resultSet2.getInt(1);
-		icon.setId(id);
-	}
+//	/**
+//	 * Sets the unique id of an icon based on its database unique id
+//	 * 
+//	 * @param icon
+//	 *            the icon whose id will be set
+//	 */
+//	private void setIconID(Icon icon) throws SQLException {
+//		String SELECT_LABEL = "SELECT _id FROM timeline_icons WHERE iconName = ?;";
+//		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
+//		pstmt.setString(1, icon.getName());
+//		ResultSet resultSet2 = pstmt.executeQuery();
+//		int id = resultSet2.getInt(1);
+//		icon.setId(id);
+//	}
 
 }
