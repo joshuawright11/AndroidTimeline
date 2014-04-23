@@ -17,6 +17,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 
 /**
  * phpDBHelper.java
@@ -40,16 +42,16 @@ public class phpDBHelper {
 	public phpDBHelper(String u, String p){
 		user = u;
 		pass = p;
-
+		
 	}
 	public void doit(Context context){
-		//database = new AndroidDBHelper(context);
+		System.out.println("Hey");
+		database = new AndroidDBHelper(context);
 		tlMap = new HashMap<String,Timeline>();
 		tlNameIdMap = new HashMap<String,String>();
 		catMap = new HashMap<Category, String>();
-		System.out.println("u:"+user+" p:"+pass);
+		Log.d("","u:"+user+" p:"+pass);
 		try{
-
 			parse();
 		} catch (ParseException e){
 			System.out.println("json parsing fail");
@@ -70,7 +72,7 @@ public class phpDBHelper {
 		}
 
 	}
-	public static void parse() throws ParseException{
+	public static void parse() throws ParseException {
 		
 
 		JSONParser parser=new JSONParser(); //parser
@@ -92,7 +94,7 @@ public class phpDBHelper {
 			jobj = (JSONObject)it.next();
 			tid = (String) jobj.get("tid");
 			tl = new Timeline((String) jobj.get("name"), AxisLabel.valueOf((String) jobj.get("axis_label")), 
-					Integer.parseInt((String)jobj.get("axis_color")), Integer.parseInt((String) jobj.get("background_color")));
+					Color.parseColor(((String)jobj.get("axis_color")).replaceFirst("^0x", "#")), Color.parseColor(((String) jobj.get("background_color")).replaceFirst("^0x", "#")));
 			tlMap.put((String) jobj.get("tid"), tl);
 			tlNameIdMap.put((String) jobj.get("tid"),(String) jobj.get("name"));
 		}while(it.hasNext());
@@ -137,7 +139,7 @@ public class phpDBHelper {
 
 			//getting json string from database
 			URL internet = new URL("http://cs.wheaton.edu/~kurt.andres/addUser.php?name="+user+"&password="+pass);
-
+			Log.d("HERE", "HERE");
 			Scanner sc = new Scanner(internet.openStream());
 
 			JSONParser parser=new JSONParser(); //parser
