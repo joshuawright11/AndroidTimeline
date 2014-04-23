@@ -6,8 +6,10 @@ import model.Category;
 import model.TLEvent;
 import model.Timeline;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -19,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,9 +33,14 @@ import android.os.Build;
 
 import java.util.ArrayList;
 
+import org.json.simple.parser.ParseException;
+
 import storage.DBHelperAPI;
+import storage.phpPushHelper;
 
 public class AddEvent extends Activity {
+	
+	private static Activity thisActivity;
 	
 	boolean checkBox;
 	
@@ -40,6 +49,14 @@ public class AddEvent extends Activity {
 	static ArrayList<Timeline> timelines;
 	
 	static DBHelperAPI database;
+	
+	static ArrayAdapter<String> timeSelector;
+	
+	static Spinner tSpinner;
+	
+	static ArrayAdapter<String> catSelector;
+	
+	static Spinner cSpinner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +68,18 @@ public class AddEvent extends Activity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
+		thisActivity = this;
+		
 		checkBox = false;
+		
+		timelines = (ArrayList<Timeline>) getIntent().getSerializableExtra("timelines");
 	}
 	
 	public void okClick(View view) {
+		Timeline t = timelines.get(tSpinner.getSelectedItemPosition());
 		String title = ((EditText) findViewById(R.id.EventTitle)).getText().toString();
 		Date firstDate = new Date(((DatePicker) findViewById(R.id.datePicker1)).getCalendarView().getDate());
-		//Category category = categories.get(((Spinner) findViewById(R.id.categorySelector)).getSelectedItemPosition());
-		Category category = null;
-		//iconIndex?
+		Category category = t.getCategory((String)cSpinner.getSelectedItem());
 		int iconIndex = 1;
 		String description = ((EditText) findViewById(R.id.eventDetails)).getText().toString();
 		
@@ -72,12 +92,17 @@ public class AddEvent extends Activity {
 			event = new Duration(title,category,firstDate,secondDate,iconIndex,description);
 		}
 		
-		//uncomment when concrete DBHelper is available
-		//event.save(database, timelines.get(((Spinner) findViewById(R.id.addEventTimelineSelector)).getSelectedItemPosition()).getName());
+		t.addEvent(event);
 		
-		Intent intent = new Intent(this, MainActivity.class);
-	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
-	    startActivity(intent);
+		/*try {
+			phpPushHelper.send(timelines);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}*/
+		
+		finish();
 	}
 	
 	public void onCheckboxClicked(View view) {
@@ -114,29 +139,43 @@ public class AddEvent extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_add_event,
 					container, false);
-			
-			//uncomment when concrete DBHelper is available
-			/*
-			timelines = new ArrayList<Timeline>(Arrays.asList(database.getTimelines()));
-			categories = new ArrayList<Category>(database.getCategories().keySet());
-			
-			ArrayList<String> catNames = new ArrayList<String>();
-			for(Category c : categories)
-				catNames.add(c.getName());
 			ArrayList<String> timeNames = new ArrayList<String>();
 			for(Timeline t : timelines)
 				timeNames.add(t.getName());
 			
-			ArrayAdapter<String> adp1;
-			adp1 = new ArrayAdapter<String> (this.getActivity(), R.id.categorySelector);
-			Spinner CatSelector = (Spinner) rootView.findViewById(R.id.categorySelector);
-			CatSelector.setAdapter(adp1);
+			tSpinner = (Spinner) rootView.findViewById(R.id.addEventTimelineSelector);
+			timeSelector = new ArrayAdapter<String> (this.getActivity(), android.R.layout.simple_list_item_1, timeNames);
+			tSpinner.setAdapter(timeSelector);
 			
-			ArrayAdapter<String> adp2;
-			adp2 = new ArrayAdapter<String> (this.getActivity(), R.id.addEventTimelineSelector);
-			Spinner TimeSelector = (Spinner) rootView.findViewById(R.id.addEventTimelineSelector);
-			TimeSelector.setAdapter(adp2);
-			*/
+			ArrayList<String> catNames = new ArrayList<String>();
+			for(Iterator<Category> it = timelines.get(0).getCategoryIterator(); it.hasNext();){
+				catNames.add(it.next().getName());
+			}
+			
+			cSpinner = (Spinner) rootView.findViewById(R.id.categorySelector);
+			catSelector = new ArrayAdapter<String> (this.getActivity(), android.R.layout.simple_list_item_1, catNames);
+			cSpinner.setAdapter(catSelector);
+			
+			tSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int position, long id) {
+					Timeline t = timelines.get(position);
+		        	ArrayList<String> catNames = new ArrayList<String>();
+		        	for(Iterator<Category> it = t.getCategoryIterator(); it.hasNext();){
+		        		catNames.add(it.next().getName());
+		        	}
+		        	catSelector = new ArrayAdapter<String> (thisActivity, android.R.layout.simple_list_item_1, catNames);
+					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					
+				}
+		    });
 			
 			return rootView;
 		}
