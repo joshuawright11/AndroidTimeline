@@ -1,18 +1,13 @@
 package render;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import model.Category;
 import model.TLEvent;
 
 /**
@@ -39,7 +34,7 @@ public abstract class TLEventTextView extends TextView {
 	private int xPos;
 	private int yPos;
         
-    private Drawable icon;
+    private Bitmap icon;
 	
 //	private ContextMenu contextMenu;
 	
@@ -53,15 +48,15 @@ public abstract class TLEventTextView extends TextView {
 		this.event = event;
 		this.xPos = xPos;
 		this.yPos = yPos;
-                if(event.getIcon()!=null)
-                    this.icon = event.getIcon().getImage();
+        if(event.getIcon()!=null)
+        	this.icon = event.getIcon().getImage();
 		//contextMenu = new ContextMenu();
 		init();
 	}
         
-        public Drawable getIcon(){
-            return icon;
-        }
+    public Bitmap getIcon(){
+        return icon;
+    }
 	
 	/**
 	 * Initializes generic parts of TLEventLabel

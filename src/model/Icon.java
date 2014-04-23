@@ -8,7 +8,9 @@ package model;
 
 import java.io.Serializable;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 //import javafx.scene.image.Image;
 
@@ -25,7 +27,7 @@ public class Icon implements Serializable{
 	/**
 	 * The image associated with this icon.
 	 */
-	private Drawable icon;
+	private Bitmap icon;
 
 	/**
 	 * The id of this icon
@@ -47,9 +49,9 @@ public class Icon implements Serializable{
 	 * @param path
 	 *            The path to set
 	 */
-	public Icon(String name, Drawable icon, String path) {
+	public Icon(String name, Bitmap bitMap, String path) {
 		this.name = name;
-		this.icon = icon;
+		this.icon = bitMap;
 		this.path = path;
 		this.setId(-1);
 	}
@@ -68,7 +70,7 @@ public class Icon implements Serializable{
 	 * 
 	 * @return The image of the icon
 	 */
-	public Drawable getImage() {
+	public Bitmap getImage() {
 		return icon;
 	}
 

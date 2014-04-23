@@ -1,12 +1,6 @@
-/**
- * 
- */
 package render;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.view.Gravity;
 import model.Duration;
 
 /**
@@ -19,6 +13,15 @@ public class DurationTextView extends TLEventTextView {
 	 * The width in pixels of the label
 	 */
 	private int width;
+	
+	/**
+	 * This should never be called.
+	 * 
+	 * @param context
+	 */
+	public DurationTextView(Context context){
+		super(context, 0, 0, null);
+	}
 
 	/**
 	 * Constructor calls the super constructor with the event name, assigns
