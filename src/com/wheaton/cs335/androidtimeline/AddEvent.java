@@ -5,8 +5,10 @@ import model.Duration;
 import model.Category;
 import model.TLEvent;
 import model.Timeline;
+
 import java.sql.Date;
 import java.util.Arrays;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -27,7 +29,7 @@ import android.os.Build;
 
 import java.util.ArrayList;
 
-import storage.DBHelper;
+import storage.DBHelperAPI;
 
 public class AddEvent extends Activity {
 	
@@ -37,7 +39,7 @@ public class AddEvent extends Activity {
 	
 	static ArrayList<Timeline> timelines;
 	
-	static DBHelper database;
+	static DBHelperAPI database;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -16,6 +16,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.content.Context;
+
 /**
  * phpDBHelper.java
  * 
@@ -28,7 +30,7 @@ import org.json.simple.parser.ParseException;
  */
 public class phpDBHelper {
 
-	private static DBHelper database;
+	private static DBHelperAPI database;
 	private static HashMap<String,Timeline> tlMap;
 	private static HashMap<String,String> tlNameIdMap;
 	private static HashMap<Category, String> catMap;
@@ -40,8 +42,8 @@ public class phpDBHelper {
 		pass = p;
 
 	}
-	public void doit(){
-		database = new DBHelper("timeline.db");
+	public void doit(Context context){
+		//database = new AndroidDBHelper(context);
 		tlMap = new HashMap<String,Timeline>();
 		tlNameIdMap = new HashMap<String,String>();
 		catMap = new HashMap<Category, String>();

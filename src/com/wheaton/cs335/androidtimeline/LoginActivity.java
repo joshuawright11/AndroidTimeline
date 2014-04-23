@@ -1,5 +1,6 @@
 package com.wheaton.cs335.androidtimeline;
 
+import storage.phpDBHelper;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -64,8 +65,7 @@ public class LoginActivity extends Activity {
 		mPasswordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
+					public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
 						if (id == R.id.login || id == EditorInfo.IME_NULL) {
 							attemptLogin();
 							return true;
@@ -120,19 +120,11 @@ public class LoginActivity extends Activity {
 			mPasswordView.setError(getString(R.string.error_field_required));
 			focusView = mPasswordView;
 			cancel = true;
-		} else if (mPassword.length() < 4) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
-			cancel = true;
 		}
 
 		// Check for a valid email address.
 		if (TextUtils.isEmpty(mEmail)) {
 			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
-			cancel = true;
-		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
 			focusView = mEmailView;
 			cancel = true;
 		}
@@ -146,7 +138,7 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			mAuthTask = new UserLoginTask(this);
+			mAuthTask = new UserLoginTask();
 			mAuthTask.execute((Void) null);
 		}
 	}
@@ -198,18 +190,13 @@ public class LoginActivity extends Activity {
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		
-		private Activity activity;
-		
-		UserLoginTask(Activity activity){
-			this.activity = activity;
-		}
-		
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
 
 			try {
-				// Simulate network access.
+				phpDBHelper p = new phpDBHelper(mEmail, mPassword);
+				p.doit(getBaseContext());
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				return false;

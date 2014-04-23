@@ -6,7 +6,7 @@ package model;
 import java.io.Serializable;
 import java.sql.Date;
 
-import storage.DBHelper;
+import storage.DBHelperAPI;
 
 public class TLEvent implements Serializable{
 	protected String description, name;
@@ -151,7 +151,7 @@ public class TLEvent implements Serializable{
 	/**
 	 * Saves the event to the database.
 	 */
-	public void save(DBHelper db, String timelineName) {
+	public void save(DBHelperAPI db, String timelineName) {
 		db.saveEvent(this, timelineName);
 	}
 

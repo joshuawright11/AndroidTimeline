@@ -27,10 +27,6 @@ import android.graphics.Color;
 
 public class MainActivity extends Activity {
 	
-	private DBOpenHelper mDbHelper;
-	
-	private SQLiteDatabase database;
-	
 	private ListView timelineList;
 	
 	private ArrayList<String> list;
@@ -43,14 +39,12 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		startActivity(new Intent(this, LoginActivity.class));
+
+
+		// code to sync data to external database
+		// must call when stuff is closed or added
+		// phpPushHelper.send(ArrayListOfTimelines);
 		
-		mDbHelper = new DBOpenHelper(getBaseContext());
-		database = mDbHelper.getWritableDatabase();
-		
-//		phpDBHelper p = new phpDBHelper(user, pass); //TODO get user and password
-//		p.doit();
-//		
-//		phpPushHelper.send(ArrayListOfTimelines);
 		
 		timelineList = (ListView) findViewById(R.id.timelineListView);
 		list = new ArrayList<String>(Arrays.asList(new String[]{"one", "two", "three"}));

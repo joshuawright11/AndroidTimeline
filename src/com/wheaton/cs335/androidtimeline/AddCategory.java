@@ -3,7 +3,7 @@ package com.wheaton.cs335.androidtimeline;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import storage.DBHelper;
+import storage.DBHelperAPI;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -35,7 +35,7 @@ public class AddCategory extends Activity{
 	
 	static ArrayList<Timeline> timelines;
 	
-	static DBHelper database;
+	static DBHelperAPI database;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
