@@ -1,9 +1,13 @@
 package com.wheaton.cs335.androidtimeline;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.json.simple.parser.ParseException;
+
 import storage.DBHelperAPI;
+import storage.phpPushHelper;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -33,6 +37,10 @@ public class AddCategory extends Activity{
 	private TextView categoryTitle;
 	private boolean initialized;
 	
+	static private Spinner CatSelector;
+	
+	static private Activity thisActivity;
+	
 	static ArrayList<Timeline> timelines;
 	
 	static DBHelperAPI database;
@@ -50,6 +58,10 @@ public class AddCategory extends Activity{
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, phf).commit();
 		}
+		
+		thisActivity = this;
+		
+		timelines = (ArrayList<Timeline>) getIntent().getSerializableExtra("timelines");
 	}
 	
 	private class SeekListener implements OnSeekBarChangeListener{
@@ -89,12 +101,17 @@ public class AddCategory extends Activity{
 		blue = bsb.getProgress();
 		
 		Category cat = new Category(((TextView) findViewById(R.id.categoryName)).getText().toString(),Color.rgb(red,green,blue));
-		//uncomment when concrete DBHelper is available
-		//database.saveCategory(cat, timelines.get(((Spinner) findViewById(R.id.addEventTimelineSelector)).getSelectedItemPosition()).getName());
-		
-		Intent intent = new Intent(this, MainActivity.class);
-	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
-	    startActivity(intent);
+		Timeline selected = timelines.get(CatSelector.getSelectedItemPosition());
+		selected.addCategory(cat);
+		/*try {
+			phpPushHelper.send(timelines);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}*/
+
+		finish();
 	}
 
 	@Override
@@ -121,16 +138,13 @@ public class AddCategory extends Activity{
 					container, false);
 			
 			//uncomment when concrete DBHelper is available
-			/*timelines = new ArrayList<Timeline>(Arrays.asList(database.getTimelines()));
-			
 			ArrayList<String> timeNames = new ArrayList<String>();
 			for(Timeline t : timelines)
 				timeNames.add(t.getName());
 			ArrayAdapter<String> adp1;
-			adp1 = new ArrayAdapter<String> (this.getActivity(), R.id.addCategoryTimelineSelector);
-			Spinner CatSelector = (Spinner) rootView.findViewById(R.id.addCategoryTimelineSelector);
+			CatSelector = (Spinner) rootView.findViewById(R.id.addCategoryTimelineSelector);
+			adp1 = new ArrayAdapter<String> (this.getActivity(), android.R.layout.simple_list_item_1, timeNames);
 			CatSelector.setAdapter(adp1);
-			*/
 			
 			rsb = (SeekBar) rootView.findViewById(R.id.redSelecter);
 			gsb = (SeekBar) rootView.findViewById(R.id.greenSelecter);
