@@ -730,9 +730,10 @@ public class AndroidDBHelper implements DBHelperAPI {
 	private void setCategoryID(Category category, String timelineName)
 			throws SQLException {
 		String SELECT_LABEL = "SELECT _id FROM timeline_categories WHERE categoryName = ? and timelineName = ?;";
-		Cursor results = database.rawQuery(SELECT_LABEL, new String[]{});
+		Cursor results = database.rawQuery(SELECT_LABEL, new String[]{category.getName(), timelineName});
 		results.moveToFirst();
-		int id = results.getInt(1);
+		System.out.println(results.getColumnCount());
+		int id = results.getInt(0);
 		category.setID(id);
 	}
 

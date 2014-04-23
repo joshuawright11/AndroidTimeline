@@ -17,6 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 
 /**
@@ -93,7 +94,7 @@ public class phpDBHelper {
 			jobj = (JSONObject)it.next();
 			tid = (String) jobj.get("tid");
 			tl = new Timeline((String) jobj.get("name"), AxisLabel.valueOf((String) jobj.get("axis_label")), 
-					Integer.parseInt((String)jobj.get("axis_color")), Integer.parseInt((String) jobj.get("background_color")));
+					Color.parseColor(((String)jobj.get("axis_color")).replaceFirst("^0x", "#")), Color.parseColor(((String) jobj.get("background_color")).replaceFirst("^0x", "#")));
 			tlMap.put((String) jobj.get("tid"), tl);
 			tlNameIdMap.put((String) jobj.get("tid"),(String) jobj.get("name"));
 		}while(it.hasNext());
