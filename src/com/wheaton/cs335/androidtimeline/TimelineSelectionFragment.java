@@ -67,7 +67,7 @@ public class TimelineSelectionFragment extends Fragment {
 				TLEvent event1 = new Atomic("one", new Category(""), one, -1, "");
 				TLEvent event2 = new Duration("two", new Category(""), three,four, -1, "");
 				TLEvent event3 = new Atomic("three", new Category(""), two, -1, "");
-				Timeline test1 = new Timeline("Tester", AxisLabel.DAYS,Color.BLUE,Color.GRAY);
+				Timeline test1 = new Timeline("Tester", AxisLabel.MONTHS,Color.BLUE,Color.GRAY);
 				test1.addEvent(event1);
 				test1.addEvent(event2);
 				test1.addEvent(event3);
