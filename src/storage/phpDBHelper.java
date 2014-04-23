@@ -17,6 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * phpDBHelper.java
@@ -40,16 +41,16 @@ public class phpDBHelper {
 	public phpDBHelper(String u, String p){
 		user = u;
 		pass = p;
-
+		
 	}
 	public void doit(Context context){
+		System.out.println("Hey");
 		database = new AndroidDBHelper(context);
 		tlMap = new HashMap<String,Timeline>();
 		tlNameIdMap = new HashMap<String,String>();
 		catMap = new HashMap<Category, String>();
-		System.out.println("u:"+user+" p:"+pass);
+		Log.d("","u:"+user+" p:"+pass);
 		try{
-
 			parse();
 		} catch (ParseException e){
 			System.out.println("json parsing fail");
@@ -70,7 +71,7 @@ public class phpDBHelper {
 		}
 
 	}
-	public static void parse() throws ParseException{
+	public static void parse() throws ParseException {
 		
 
 		JSONParser parser=new JSONParser(); //parser
@@ -137,7 +138,7 @@ public class phpDBHelper {
 
 			//getting json string from database
 			URL internet = new URL("http://cs.wheaton.edu/~kurt.andres/addUser.php?name="+user+"&password="+pass);
-
+			Log.d("HERE", "HERE");
 			Scanner sc = new Scanner(internet.openStream());
 
 			JSONParser parser=new JSONParser(); //parser
