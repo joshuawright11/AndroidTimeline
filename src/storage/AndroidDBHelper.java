@@ -375,10 +375,9 @@ public class AndroidDBHelper implements DBHelperAPI {
 	 */
 	private void setTimelineID(Timeline timeline) throws SQLException {
 		String SELECT_LABEL = "SELECT _id FROM timeline_info WHERE timelineName = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setString(1, timeline.getName());
-		ResultSet resultSet2 = pstmt.executeQuery();
-		int id = resultSet2.getInt(1);
+		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {timeline.getName()});
+		c.moveToFirst();
+		int id = c.getInt(1);
 		timeline.setID(id);
 	}
 
@@ -407,10 +406,11 @@ public class AndroidDBHelper implements DBHelperAPI {
 	 */
 	private int getAxisLabel(Timeline timeline) throws SQLException {
 		String SELECT_LABEL = "SELECT axisLabel FROM timeline_info WHERE _id = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setInt(1, timeline.getID());
-		resultSet = pstmt.executeQuery();
-		String labelName = resultSet.getString(1);
+		
+		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {timeline.getID()+""}); 
+		c.moveToFirst();
+
+		String labelName = c.getString(1);
 		switch (labelName) {
 		case "DAYS":
 			return 0;
