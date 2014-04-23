@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import storage.DBOpenHelper;
+import storage.phpDBHelper;
 import model.Atomic;
 import model.Category;
 import model.Duration;
@@ -19,29 +21,37 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
 public class MainActivity extends Activity {
-
-
+	
+	private DBOpenHelper mDbHelper;
+	
+	private SQLiteDatabase database;
+	
+	private ListView timelineList;
+	
+	private ArrayList<String> list;
+	
+	private StableArrayAdapter adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-			
-		ListView timelineList;
-			
+		
+//		mDbHelper = new DBOpenHelper(getBaseContext());
+//		database = mDbHelper.getWritableDatabase();
+//		phpDBHelper p = new phpDBHelper(user, pass); //TODO get user and password
+//		p.doit()
+		
 		timelineList = (ListView) findViewById(R.id.timelineListView);
-		
-		final ArrayList<String> list = new ArrayList<String>(Arrays.asList(new String[]{"one", "two", "three"}));
-		
-		final StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, list);
-		
+		list = new ArrayList<String>(Arrays.asList(new String[]{"one", "two", "three"}));
+		adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, list);
 		timelineList.setAdapter(adapter);
 		
 		final Activity activity = this;
-		
 		timelineList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {

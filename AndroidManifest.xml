@@ -16,11 +16,6 @@
         <activity
             android:name="com.wheaton.cs335.androidtimeline.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.wheaton.cs335.androidtimeline.AddEvent"
@@ -28,16 +23,21 @@
         </activity>
         <activity
             android:name="com.wheaton.cs335.androidtimeline.AddCategory"
-            android:label="@string/title_activity_add_category" >
+            android:label="@string/addCategoryTitle" >
         </activity>
         <activity
             android:name="com.wheaton.cs335.androidtimeline.TimelineDisplayActivity"
-            android:label="@string/title_activity_add_category" >
+            android:label="@string/timelineDisplayTitle" >
         </activity>
         <activity
             android:name="com.wheaton.cs335.androidtimeline.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
