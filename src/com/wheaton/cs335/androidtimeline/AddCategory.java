@@ -37,7 +37,7 @@ public class AddCategory extends Activity{
 	private TextView categoryTitle;
 	private boolean initialized;
 	
-	static private Spinner CatSelector;
+	static private Spinner timeSelector;
 	
 	static private Activity thisActivity;
 	
@@ -101,7 +101,7 @@ public class AddCategory extends Activity{
 		blue = bsb.getProgress();
 		
 		Category cat = new Category(((TextView) findViewById(R.id.categoryName)).getText().toString(),Color.rgb(red,green,blue));
-		Timeline selected = timelines.get(CatSelector.getSelectedItemPosition());
+		Timeline selected = timelines.get(timeSelector.getSelectedItemPosition());
 		selected.addCategory(cat);
 		/*try {
 			phpPushHelper.send(timelines);
@@ -142,9 +142,9 @@ public class AddCategory extends Activity{
 			for(Timeline t : timelines)
 				timeNames.add(t.getName());
 			ArrayAdapter<String> adp1;
-			CatSelector = (Spinner) rootView.findViewById(R.id.addCategoryTimelineSelector);
+			timeSelector = (Spinner) rootView.findViewById(R.id.addCategoryTimelineSelector);
 			adp1 = new ArrayAdapter<String> (this.getActivity(), android.R.layout.simple_list_item_1, timeNames);
-			CatSelector.setAdapter(adp1);
+			timeSelector.setAdapter(adp1);
 			
 			rsb = (SeekBar) rootView.findViewById(R.id.redSelecter);
 			gsb = (SeekBar) rootView.findViewById(R.id.greenSelecter);
