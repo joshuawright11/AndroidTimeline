@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import storage.DBOpenHelper;
 import storage.phpDBHelper;
+import storage.phpPushHelper;
 import model.Atomic;
 import model.Category;
 import model.Duration;
@@ -41,10 +42,15 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-//		mDbHelper = new DBOpenHelper(getBaseContext());
-//		database = mDbHelper.getWritableDatabase();
+		startActivity(new Intent(this, LoginActivity.class));
+		
+		mDbHelper = new DBOpenHelper(getBaseContext());
+		database = mDbHelper.getWritableDatabase();
+		
 //		phpDBHelper p = new phpDBHelper(user, pass); //TODO get user and password
-//		p.doit()
+//		p.doit();
+//		
+//		phpPushHelper.send(ArrayListOfTimelines);
 		
 		timelineList = (ListView) findViewById(R.id.timelineListView);
 		list = new ArrayList<String>(Arrays.asList(new String[]{"one", "two", "three"}));
