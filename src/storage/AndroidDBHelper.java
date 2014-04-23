@@ -129,7 +129,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 			Cursor results = database
 					.rawQuery("SELECT name from sqlite_master WHERE type = \"table\" "
 							+ "and name != \"sqlite_sequence\" and name != \"timeline_info\" and name != \"timeline_categories\" "
-							+ "and name != \"timeline_icons\";", null);
+							+ "and name != \"timeline_icons\";", new String[]{});
 			results.moveToFirst();
 			ArrayList<String> timelineNames = new ArrayList<String>();
 			int numTimelines = 0;
@@ -411,17 +411,17 @@ public class AndroidDBHelper implements DBHelperAPI {
 		c.moveToFirst();
 
 		String labelName = c.getString(1);
-		switch (labelName) {
-		case "DAYS":
+		
+		if (labelName.equals("DAYS")) {
 			return 0;
-		case "MONTHS":
+		}else if (labelName.equals("MONTHS")) {
 			return 2;
-		case "YEARS":
+		}else if (labelName.equals("YEARS")) {
 			return 3;
-		default:
+		}else
 			return 3;
-		}
 	}
+	
 
 	/**
 	 * Gets the axis color of a timeline from the database based on its unique
@@ -435,10 +435,10 @@ public class AndroidDBHelper implements DBHelperAPI {
 	 */
 	private int getAxisColor(int id) throws SQLException {
 		String SELECT_LABEL = "SELECT axisColor FROM timeline_info WHERE _id = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setInt(1, id);
-		ResultSet resultSet2 = pstmt.executeQuery();
-		String color = resultSet2.getString(1);
+		
+		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
+		c.moveToFirst();
+		String color = c.getString(1);
 		int toReturn = Color.parseColor(color.replaceFirst("^0x", "#"));
 		return toReturn;
 	}
@@ -455,10 +455,9 @@ public class AndroidDBHelper implements DBHelperAPI {
 	 */
 	private int getBackgroundColor(int id) throws SQLException {
 		String SELECT_LABEL = "SELECT backgroundColor FROM timeline_info WHERE _id = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setInt(1, id);
-		ResultSet resultSet2 = pstmt.executeQuery();
-		String color = resultSet2.getString(1);
+		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
+		c.moveToFirst();
+		String color = c.getString(1);
 		int toReturn = Color.parseColor(color.replaceFirst("^0x", "#")); // Hex to Android color
 		return toReturn;
 	}
@@ -572,15 +571,16 @@ public class AndroidDBHelper implements DBHelperAPI {
 				+ tlName
 				+ " (eventName,type,startDate,endDate,category, icon, description) VALUES "
 				+ "(?,?,?,?,?,?,?);";
-		PreparedStatement pstmt = connection.prepareStatement(INSERT_DURATION);
-		pstmt.setString(1, event.getName());
-		pstmt.setString(2, "duration");
-		pstmt.setDate(3, event.getStartDate());
-		pstmt.setDate(4, event.getEndDate());
-		pstmt.setString(5, event.getCategory().getName());
-		pstmt.setInt(6, event.getIcon().getId());
-		pstmt.setString(7, event.getDescription());
-		pstmt.executeUpdate();
+		
+		SQLiteStatement stmt = database.compileStatement(INSERT_DURATION);
+		stmt.bindString(1, event.getName());
+		stmt.bindString(2, "duration");
+		stmt.bindLong(3, event.getStartDate().getTime());
+		stmt.bindLong(4, event.getEndDate().getTime());
+		stmt.bindString(5, event.getCategory().getName());
+		stmt.bindString(6, event.getIcon().getId()+"");
+		stmt.bindString(7, event.getDescription());
+		stmt.executeInsert();
 	}
 
 	/**
@@ -599,14 +599,14 @@ public class AndroidDBHelper implements DBHelperAPI {
 				+ tlName
 				+ " (eventName,type,startDate,endDate,category, icon, description) VALUES "
 				+ "(?,?,?,NULL,?,?,?);";
-		PreparedStatement pstmt = connection.prepareStatement(INSERT_ATOMIC);
-		pstmt.setString(1, event.getName());
-		pstmt.setString(2, "atomic");
-		pstmt.setDate(3, event.getStartDate());
-		pstmt.setString(4, event.getCategory().getName());
-		pstmt.setInt(5, event.getIcon().getId());
-		pstmt.setString(6, event.getDescription());
-		pstmt.executeUpdate();
+		SQLiteStatement stmt = database.compileStatement(INSERT_ATOMIC);
+		stmt.bindString(1, event.getName());
+		stmt.bindString(2, "duration");
+		stmt.bindLong(3, event.getStartDate().getTime());
+		stmt.bindString(4, event.getCategory().getName());
+		stmt.bindString(5, event.getIcon().getId()+"");
+		stmt.bindString(6, event.getDescription());
+		stmt.executeInsert();
 	}
 
 	/**
@@ -624,10 +624,9 @@ public class AndroidDBHelper implements DBHelperAPI {
 			throws SQLException {
 		String SELECT_LABEL = "SELECT _id FROM " + timelineName
 				+ " WHERE eventName = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setString(1, event.getName());
-		ResultSet resultSet2 = pstmt.executeQuery();
-		int id = resultSet2.getInt(1);
+		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {event.getName()}); 
+		c.moveToFirst();
+		int id = c.getInt(1);
 		event.setID(id);
 	}
 
@@ -635,14 +634,14 @@ public class AndroidDBHelper implements DBHelperAPI {
 	public HashMap<Category, String> getCategories() {
 		open();
 		try {
-			ResultSet resultSet2 = statement
-					.executeQuery("SELECT * FROM timeline_categories;");
+			Cursor c = database
+					.rawQuery("SELECT * FROM timeline_categories;", new String[]{});
 			HashMap<Category, String> categories = new HashMap<Category, String>();
-			while (resultSet2.next()) { // Get all category info
-				int id = resultSet2.getInt(1);
-				String name = resultSet2.getString("categoryName");
-				String timelineName = resultSet2.getString("timelineName");
-				int color = Color.parseColor(resultSet2.getString("color").replaceFirst("^0x", "#")); // Hex to Android color
+			while (c.moveToNext()) { // Get all category info
+				int id = c.getInt(1);
+				String name = c.getString(c.getColumnIndex("categoryName"));
+				String timelineName = c.getString(c.getColumnIndex("timelineName"));
+				int color = Color.parseColor(c.getString(c.getColumnIndex("color")).replaceFirst("^0x", "#")); // Hex to Android color
 				Category category = new Category(name, color);
 				category.setID(id);
 				categories.put(category, timelineName);
@@ -661,12 +660,11 @@ public class AndroidDBHelper implements DBHelperAPI {
 		String INSERT_CATEGORY = "INSERT INTO timeline_categories (categoryName,timelineName,color) VALUES (?,?,?);";
 		open();
 		try {
-			PreparedStatement pstmt = connection
-					.prepareStatement(INSERT_CATEGORY);
-			pstmt.setString(1, category.getName());
-			pstmt.setString(2, timelineName);
-			pstmt.setString(3, category.getColor()+"");
-			pstmt.executeUpdate();
+			SQLiteStatement stmt = database.compileStatement(INSERT_CATEGORY);
+			stmt.bindString(1, category.getName());
+			stmt.bindString(2, timelineName);
+			stmt.bindString(3, category.getColor()+""); //TODO COLOR MIGHT BE WRONG
+			stmt.executeInsert();
 			setCategoryID(category, timelineName);
 		} catch (SQLException e) {
 			// Already exists?
@@ -732,11 +730,9 @@ public class AndroidDBHelper implements DBHelperAPI {
 	private void setCategoryID(Category category, String timelineName)
 			throws SQLException {
 		String SELECT_LABEL = "SELECT _id FROM timeline_categories WHERE categoryName = ? and timelineName = ?;";
-		PreparedStatement pstmt = connection.prepareStatement(SELECT_LABEL);
-		pstmt.setString(1, category.getName());
-		pstmt.setString(2, timelineName);
-		ResultSet resultSet2 = pstmt.executeQuery();
-		int id = resultSet2.getInt(1);
+		Cursor results = database.rawQuery(SELECT_LABEL, new String[]{});
+		results.moveToFirst();
+		int id = results.getInt(1);
 		category.setID(id);
 	}
 
