@@ -195,8 +195,8 @@ public class LoginActivity extends Activity {
 			// TODO: attempt authentication against a network service.
 
 			try {
-				phpDBHelper p = new phpDBHelper(mEmail, mPassword);
-				p.doit(getBaseContext());
+				//phpDBHelper p = new phpDBHelper(mEmail, mPassword);
+				//p.doit(getBaseContext());
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				return false;
