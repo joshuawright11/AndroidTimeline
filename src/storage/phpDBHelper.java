@@ -43,7 +43,7 @@ public class phpDBHelper {
 
 	}
 	public void doit(Context context){
-		//database = new AndroidDBHelper(context);
+		database = new AndroidDBHelper(context);
 		tlMap = new HashMap<String,Timeline>();
 		tlNameIdMap = new HashMap<String,String>();
 		catMap = new HashMap<Category, String>();
