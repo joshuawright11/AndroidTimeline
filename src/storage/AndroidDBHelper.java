@@ -40,7 +40,6 @@ public class AndroidDBHelper implements DBHelperAPI {
 	
 	private DBOpenHelper mDbHelper;
 	private SQLiteDatabase database;
-	private SQLiteStatement statement;
 	
 	/**
 	 * Used for making database Android compatible, useful to save as a variable
@@ -133,9 +132,10 @@ public class AndroidDBHelper implements DBHelperAPI {
 			results.moveToFirst();
 			ArrayList<String> timelineNames = new ArrayList<String>();
 			int numTimelines = 0;
-			while (results.moveToNext()) { // Get all timeline names
+			while (!results.isAfterLast()) { // Get all timeline names
 				numTimelines++;
-				timelineNames.add(results.getString(1));
+				timelineNames.add(results.getString(0));
+				results.moveToNext();
 			}
 			Timeline[] timelines = new Timeline[numTimelines];
 			for (int j = 0; j < numTimelines; j++) { // Get all timelines event
@@ -377,7 +377,8 @@ public class AndroidDBHelper implements DBHelperAPI {
 		String SELECT_LABEL = "SELECT _id FROM timeline_info WHERE timelineName = ?;";
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {timeline.getName()});
 		c.moveToFirst();
-		int id = c.getInt(1);
+		System.out.println("SETID COLUMN COUNT "+c.getCount());
+		int id = c.getInt(0);
 		timeline.setID(id);
 	}
 
@@ -410,7 +411,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {timeline.getID()+""}); 
 		c.moveToFirst();
 
-		String labelName = c.getString(1);
+		String labelName = c.getString(0);
 		
 		if (labelName.equals("DAYS")) {
 			return 0;
@@ -438,7 +439,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 		
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
 		c.moveToFirst();
-		String color = c.getString(1);
+		String color = c.getString(0);
 		int toReturn = Color.parseColor(color.replaceFirst("^0x", "#"));
 		return toReturn;
 	}
@@ -457,7 +458,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 		String SELECT_LABEL = "SELECT backgroundColor FROM timeline_info WHERE _id = ?;";
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
 		c.moveToFirst();
-		String color = c.getString(1);
+		String color = c.getString(0);
 		int toReturn = Color.parseColor(color.replaceFirst("^0x", "#")); // Hex to Android color
 		return toReturn;
 	}
@@ -626,7 +627,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 				+ " WHERE eventName = ?;";
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {event.getName()}); 
 		c.moveToFirst();
-		int id = c.getInt(1);
+		int id = c.getInt(0);
 		event.setID(id);
 	}
 
@@ -638,7 +639,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 					.rawQuery("SELECT * FROM timeline_categories;", new String[]{});
 			HashMap<Category, String> categories = new HashMap<Category, String>();
 			while (c.moveToNext()) { // Get all category info
-				int id = c.getInt(1);
+				int id = c.getInt(0);
 				String name = c.getString(c.getColumnIndex("categoryName"));
 				String timelineName = c.getString(c.getColumnIndex("timelineName"));
 				int color = Color.parseColor(c.getString(c.getColumnIndex("color")).replaceFirst("^0x", "#")); // Hex to Android color
@@ -732,7 +733,6 @@ public class AndroidDBHelper implements DBHelperAPI {
 		String SELECT_LABEL = "SELECT _id FROM timeline_categories WHERE categoryName = ? and timelineName = ?;";
 		Cursor results = database.rawQuery(SELECT_LABEL, new String[]{category.getName(), timelineName});
 		results.moveToFirst();
-		System.out.println(results.getColumnCount());
 		int id = results.getInt(0);
 		category.setID(id);
 	}

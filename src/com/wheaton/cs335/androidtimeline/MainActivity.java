@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import storage.AndroidDBHelper;
 import storage.DBOpenHelper;
 import storage.phpDBHelper;
 import storage.phpPushHelper;
@@ -29,9 +30,13 @@ public class MainActivity extends Activity {
 	
 	private ListView timelineList;
 	
-	private ArrayList<String> list;
+	private ArrayList<Timeline> timelines;
+	
+	private ArrayList<String> timelineNames;
 	
 	private StableArrayAdapter adapter;
+	
+	private AndroidDBHelper database;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +45,20 @@ public class MainActivity extends Activity {
 		
 		startActivity(new Intent(this, LoginActivity.class));
 
+		database = new AndroidDBHelper(getBaseContext());
+		
+		timelines = new ArrayList<Timeline>(Arrays.asList(database.getTimelines()));
+		timelineNames = new ArrayList<String>();
 
+		for(Timeline t : timelines)
+			timelineNames.add(t.getName());
+		
 		// code to sync data to external database
 		// must call when stuff is closed or added
 		// phpPushHelper.send(ArrayListOfTimelines);
 		
-		
 		timelineList = (ListView) findViewById(R.id.timelineListView);
-		list = new ArrayList<String>(Arrays.asList(new String[]{"one", "two", "three"}));
-		adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+		adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, timelineNames);
 		timelineList.setAdapter(adapter);
 		
 		final Activity activity = this;

@@ -139,7 +139,6 @@ public class phpDBHelper {
 
 			//getting json string from database
 			URL internet = new URL("http://cs.wheaton.edu/~kurt.andres/addUser.php?name="+user+"&password="+pass);
-			Log.d("HERE", "HERE");
 			Scanner sc = new Scanner(internet.openStream());
 
 			JSONParser parser=new JSONParser(); //parser
