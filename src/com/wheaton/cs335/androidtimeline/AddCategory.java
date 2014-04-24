@@ -2,51 +2,67 @@ package com.wheaton.cs335.androidtimeline;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.json.simple.parser.ParseException;
 
-import storage.DBHelperAPI;
 import storage.phpPushHelper;
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.graphics.Color;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.os.Build;
 import model.Category;
 import model.Timeline;
 
+/**
+ * AddCategory is an Activity used for adding categories to timelines. This activity provides
+ * a clean workflow for naming a category, selecting a color via three sliders each of which
+ * represent the red, green, and blue components of a composite color. The user can add this
+ * category to any of the preexisting timelines of the user. Finally, an OK button is
+ * available to finalize the addition of the category.
+ */
 public class AddCategory extends Activity{
 	
+	/**
+	 * The Seekbars for determining Color.
+	 */
 	private SeekBar rsb, gsb, bsb;
+	
+	/**
+	 * The color components
+	 */
 	private int red, green, blue;
-	PlaceholderFragment phf;
-	private TextView categoryTitle;
-	private boolean initialized;
 	
-	static private Spinner timeSelector;
+	/**
+	 * This is used to create the Fragment to be displayed in the Activity
+	 */
+	private PlaceholderFragment phf;
 	
-	static private Activity thisActivity;
+	/**
+	 * This is the spinner used to select the timeline to which to add the category.
+	 */
+	private static Spinner timeSelector;
 	
-	static ArrayList<Timeline> timelines;
-	
-	static DBHelperAPI database;
+	/**
+	 * This is the array of timelines as received from MainActivity
+	 */
+	private static ArrayList<Timeline> timelines;
 
+	@SuppressWarnings("unchecked")
 	@Override
+	/**
+	 * This method creates a new Activity for AddCategory.
+	 */
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_category);
@@ -60,11 +76,12 @@ public class AddCategory extends Activity{
 					.add(R.id.container, phf).commit();
 		}
 		
-		thisActivity = this;
-		
 		timelines = (ArrayList<Timeline>) getIntent().getSerializableExtra("timelines");
 	}
 	
+	/**
+	 * This is an OnSeekBarChangeListener class used to update the color of the seek bars.
+	 */
 	private class SeekListener implements OnSeekBarChangeListener{
 
 		@Override
@@ -81,6 +98,10 @@ public class AddCategory extends Activity{
 		
 	}
 	
+	/**
+	 * This method is used to retrieve the seekbars, set the color components as their progress,
+	 * and finally set the background color of all the seekbars to the composite color.
+	 */
 	private void updateColor() {
 		rsb = (SeekBar) findViewById(R.id.redSelecter);
 		gsb = (SeekBar) findViewById(R.id.greenSelecter);
@@ -93,6 +114,15 @@ public class AddCategory extends Activity{
 		bsb.setBackgroundColor(Color.rgb(red,green,blue));
 	}
 	
+	/**
+	 * This method is called when a button is clicked in this Activity. In particular, this means
+	 * that when the OK button is selected, the composite color is computed from the seekbars,
+	 * and then a new category is created with the name of the Category derived from the TextView.
+	 * This category is then added to the selected timeline. The database is updated, and then the
+	 * finish() is called in the Activity.
+	 * 
+	 * @param view
+	 */
 	public void okClick(View view){
 		rsb = (SeekBar) findViewById(R.id.redSelecter);
 		gsb = (SeekBar) findViewById(R.id.greenSelecter);
@@ -123,6 +153,9 @@ public class AddCategory extends Activity{
 	}
 
 	@Override
+	/**
+	 * This method creates the menu for the Activity.
+	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -131,21 +164,35 @@ public class AddCategory extends Activity{
 	}
 
 	/**
-	 * A placeholder fragment containing a simple view.
+	 * This is the fragment to be added to the Activity.
 	 */
 	public static class PlaceholderFragment extends Fragment {
+		/**
+		 * These are the seekbars of the fragment, used to determine color.
+		 */
 		private SeekBar rsb, gsb, bsb;
+		
+		/**
+		 * This is the listener to be attached to the seekbars.
+		 */
 		private SeekListener sl;
+		
+		/**
+		 * Constructor
+		 */
 		public PlaceholderFragment(){}
 
 
 		@Override
+		/**
+		 * This method adds the Fragment to the Activity.
+		 */
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			
 			View rootView = inflater.inflate(R.layout.fragment_add_category,
 					container, false);
 			
-			//uncomment when concrete DBHelper is available
 			ArrayList<String> timeNames = new ArrayList<String>();
 			for(Timeline t : timelines)
 				timeNames.add(t.getName());
