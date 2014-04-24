@@ -17,6 +17,13 @@ import android.widget.TextView;
 import model.Category;
 import model.Timeline;
 
+/**
+ * AddCategory is an Activity used for adding categories to timelines. This activity provides
+ * a clean workflow for naming a category, selecting a color via three sliders each of which
+ * represent the red, green, and blue components of a composite color. The user can add this
+ * category to any of the preexisting timelines of the user. Finally, an OK button is
+ * available to finalize the addition of the category.
+ */
 public class AddCategory extends Activity{
 	
 	/**

@@ -23,6 +23,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import java.util.ArrayList;
 
+/**
+ * AddEvent is an Activity that allows the user to add events to preexisting timelines.
+ * The screen presents a smooth work flow for the user to follow. The user can give
+ * the event a name and select whether the event is atomic or duration. A corresponding
+ * datePicker is either made visible or invisible based on this selection. The user may
+ * then select the timeline to which to add the event. The categories available for
+ * selection is then populated per the selected timeline. The user may then click the
+ * OK button to add the event to the timeline.
+ */
 public class AddEvent extends Activity {
 	
 	/**
