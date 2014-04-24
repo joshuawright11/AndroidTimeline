@@ -148,34 +148,35 @@ public class AndroidDBHelper implements DBHelperAPI {
 														// arrays
 				results = database.rawQuery("select * from "
 						+ timelineNames.get(j) + ";", null);
-				results.moveToFirst();
 				ArrayList<TLEvent> events = new ArrayList<TLEvent>();
-				while (results.moveToNext()) { // Get all events for the event
-					String name = results.getString(results.getColumnIndex("eventName"));
-					String type = results.getString(results.getColumnIndex("type"));
-					TLEvent event = null;
-					if (type.equals("atomic")) {
-						String cat = results.getString(results.getColumnIndex("category"));
-						Category category = new Category(cat);
-						Date startDate = new Date(results.getLong(results.getColumnIndex("startDate")));
-						int iconIndex = results.getInt(results.getColumnIndex("icon"));
-						String description = results.getString(results.getColumnIndex("description"));
-						event = new Atomic(name, category, startDate,
-								iconIndex, description);
-					} else if (type.equals("duration")) {
-						String cat = results.getString(results.getColumnIndex("category"));
-						Category category = new Category(cat);
-						Date startDate = new Date(results.getLong(results.getColumnIndex("startDate")));
-						Date endDate = new Date(results.getLong(results.getColumnIndex("endDate")));
-						int iconIndex = results.getInt(results.getColumnIndex("icon"));
-						String description = results.getString(results.getColumnIndex("description"));
-						event = new Duration(name, category, startDate,
-								endDate, iconIndex, description);
-					} else {
-						System.out.println("YOU DONE MESSED UP.");
+				if(results.moveToFirst()){
+					while (!results.isAfterLast()) { // Get all events for the event
+						String name = results.getString(results.getColumnIndex("eventName"));
+						String type = results.getString(results.getColumnIndex("type"));
+						TLEvent event = null;
+						if (type.equals("atomic")) {
+							String cat = results.getString(results.getColumnIndex("category"));
+							Category category = new Category(cat);
+							Date startDate = new Date(results.getLong(results.getColumnIndex("startDate")));
+							int iconIndex = results.getInt(results.getColumnIndex("icon"));
+							String description = results.getString(results.getColumnIndex("description"));
+							event = new Atomic(name, category, startDate,
+									iconIndex, description);
+						} else if (type.equals("duration")) {
+							String cat = results.getString(results.getColumnIndex("category"));
+							Category category = new Category(cat);
+							Date startDate = new Date(results.getLong(results.getColumnIndex("startDate")));
+							Date endDate = new Date(results.getLong(results.getColumnIndex("endDate")));
+							int iconIndex = results.getInt(results.getColumnIndex("icon"));
+							String description = results.getString(results.getColumnIndex("description"));
+							event = new Duration(name, category, startDate,
+									endDate, iconIndex, description);
+						} else {
+							System.out.println("YOU DONE MESSED UP.");
+						}
+						setEventID(event, timelineNames.get(j));
+						events.add(event);
 					}
-					setEventID(event, timelineNames.get(j));
-					events.add(event);
 				}
 				Timeline timeline = new Timeline(timelineNames.get(j),
 						events.toArray(new TLEvent[events.size()]), Color.BLUE,
@@ -329,8 +330,8 @@ public class AndroidDBHelper implements DBHelperAPI {
 		SQLiteStatement stmt = database.compileStatement(INSERT_LABEL);
 		stmt.bindString(1, timeline.getName());
 		stmt.bindString(2, timeline.getAxisLabel().name());
-		stmt.bindString(3, timeline.getColorBG()+"");
-		stmt.bindString(4, timeline.getColorTL()+"");
+		stmt.bindString(3, "0x"+(Long.toHexString(timeline.getColorBG())));
+		stmt.bindString(4, "0x"+(Long.toHexString(timeline.getColorTL())));
 		stmt.executeInsert();
 	}
 

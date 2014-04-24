@@ -74,8 +74,6 @@ public class phpPushHelper {
 			
 		}
 		sc.close();
-		
-		
-	
 	}
+	
 }

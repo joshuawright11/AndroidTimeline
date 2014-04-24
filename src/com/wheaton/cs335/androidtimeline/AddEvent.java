@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -94,13 +95,20 @@ public class AddEvent extends Activity {
 		
 		t.addEvent(event);
 		
-		/*try {
-			phpPushHelper.send(timelines);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}*/
+	    new AsyncTask<Integer, Void, Void>(){
+	        @Override
+	        protected Void doInBackground(Integer... params) {
+	            // **Code**
+	        	try {
+	        		phpPushHelper.send(timelines);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+		            return null;
+		        }
+	    }.execute(1, 2, 3, 4, 5);
 		
 		finish();
 	}
