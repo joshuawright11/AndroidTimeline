@@ -472,7 +472,7 @@ public class TimelineDisplay extends RelativeLayout{
 			DurationTextView label = new DurationTextView(getContext(), e, xStart, (pushDown + 45 + counter), labelWidth);
 			eventLabels.add(label);
 			addView(label);
-			pushDown += 25;
+			pushDown += 40;
 		}
 		pushDown += 65;
 	}
