@@ -45,7 +45,6 @@ public class phpDBHelper {
 		
 	}
 	public void doit(Context context){
-		System.out.println("Hey");
 		database = new AndroidDBHelper(context);
 		tlMap = new HashMap<String,Timeline>();
 		tlNameIdMap = new HashMap<String,String>();
@@ -65,7 +64,6 @@ public class phpDBHelper {
 
 		Collection<Timeline> c = tlMap.values();
 		for (Timeline t : c){
-
 			if(!database.saveTimeline(t)){
 				System.out.println("php save timeline fail");
 			}

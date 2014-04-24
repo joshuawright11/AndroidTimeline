@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 /**

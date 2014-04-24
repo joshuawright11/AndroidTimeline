@@ -1,5 +1,6 @@
 package com.wheaton.cs335.androidtimeline;
 
+import storage.DBOpenHelper;
 import storage.phpDBHelper;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -195,6 +196,7 @@ public class LoginActivity extends Activity {
 			// TODO: attempt authentication against a network service.
 
 			try {
+				getBaseContext().deleteDatabase("timeline.db");
 				phpDBHelper p = new phpDBHelper(mEmail, mPassword);
 				p.doit(getBaseContext());
 				

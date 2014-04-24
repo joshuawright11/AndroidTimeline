@@ -6,6 +6,7 @@ package storage;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * @author josh
@@ -23,6 +24,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.d("27", "CREATING!");
 		// TODO Auto-generated method stub
 		
 	}

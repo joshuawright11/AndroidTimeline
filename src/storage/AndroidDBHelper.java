@@ -21,6 +21,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 import model.*;
 import model.Timeline.AxisLabel;
 
@@ -65,7 +66,6 @@ public class AndroidDBHelper implements DBHelperAPI {
 	 * 
 	 */
 	private void init() {
-		context.deleteDatabase("timeline.db"); //because.
 		open();
 		try {
 			database.execSQL("CREATE TABLE timeline_info (" + ID
@@ -127,16 +127,21 @@ public class AndroidDBHelper implements DBHelperAPI {
 		open();
 		try {
 			Cursor results = database
-					.rawQuery("SELECT name from sqlite_master WHERE type = \"table\" "
+					.rawQuery("SELECT name FROM sqlite_master WHERE type = 'table' "
 							+ "and name != \"sqlite_sequence\" and name != \"timeline_info\" and name != \"timeline_categories\" "
 							+ "and name != \"timeline_icons\"  and name != \"android_metadata\";", new String[]{});
-			results.moveToFirst();
 			ArrayList<String> timelineNames = new ArrayList<String>();
 			int numTimelines = 0;
-			while (!results.isAfterLast()) { // Get all timeline names
-				numTimelines++;
-				timelineNames.add(results.getString(0));
-				results.moveToNext();
+			System.out.println(results.getCount());
+			if(results.moveToFirst()){
+				while (!results.isAfterLast()) { // Get all timeline names
+					
+					System.out.println("DBHLP138 IN LOOP!");
+					
+					numTimelines++;
+					timelineNames.add(results.getString(0));
+					results.moveToNext();
+				}
 			}
 			Timeline[] timelines = new Timeline[numTimelines];
 			for (int j = 0; j < numTimelines; j++) { // Get all timelines event
@@ -216,7 +221,9 @@ public class AndroidDBHelper implements DBHelperAPI {
 			e.printStackTrace();
 		}
 		close();
-
+		
+		Log.d("226", "A TIMELINE HAS BEEN SAVED! "+timeline.getName());
+		
 		if (timeline.getEvents() == null) {
 			return true; // did not save any events, timeline still created
 		}
@@ -377,7 +384,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 		String SELECT_LABEL = "SELECT _id FROM timeline_info WHERE timelineName = ?;";
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {timeline.getName()});
 		c.moveToFirst();
-		System.out.println("SETID COLUMN COUNT "+c.getCount());
+		Log.d("387", "Setting the ID for timeline "+timeline.getName());
 		int id = c.getInt(0);
 		timeline.setID(id);
 	}
@@ -440,7 +447,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
 		c.moveToFirst();
 		String color = c.getString(0);
-		int toReturn = Color.parseColor(color.replaceFirst("^0x", "#"));
+		int toReturn = Color.BLUE;
 		return toReturn;
 	}
 
@@ -459,7 +466,9 @@ public class AndroidDBHelper implements DBHelperAPI {
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
 		c.moveToFirst();
 		String color = c.getString(0);
-		int toReturn = Color.parseColor(color.replaceFirst("^0x", "#")); // Hex to Android color
+		String colorFormat = "0x"+(Integer.toHexString(Integer.parseInt(color)));
+		Log.d("getBackgroundColor", colorFormat);
+		int toReturn = Color.parseColor(colorFormat.replaceFirst("^0x", "#")); // Hex to Android color
 		return toReturn;
 	}
 
@@ -642,7 +651,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 				int id = c.getInt(0);
 				String name = c.getString(c.getColumnIndex("categoryName"));
 				String timelineName = c.getString(c.getColumnIndex("timelineName"));
-				int color = Color.parseColor(c.getString(c.getColumnIndex("color")).replaceFirst("^0x", "#")); // Hex to Android color
+				int color = Color.BLUE; // Hex to Android color
 				Category category = new Category(name, color);
 				category.setID(id);
 				categories.put(category, timelineName);

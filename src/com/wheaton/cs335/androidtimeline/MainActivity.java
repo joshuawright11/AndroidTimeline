@@ -60,26 +60,24 @@ public class MainActivity extends Activity {
 		timelineList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-				
 				Intent intent = new Intent(activity, TimelineDisplayActivity.class);
 				
-				Date one = Date.valueOf("1993-09-11");
-				Date two = Date.valueOf("1993-09-21");
-				Date three = Date.valueOf("1993-09-12");
-				Date four = Date.valueOf("1993-09-20");
-				
-				TLEvent event1 = new Atomic("one", new Category(""), one, -1, "");
-				TLEvent event2 = new Duration("two", new Category(""), three,four, -1, "");
-				TLEvent event3 = new Atomic("three", new Category(""), two, -1, "");
-				Timeline test1 = new Timeline("Tester", AxisLabel.MONTHS,Color.BLUE,Color.GRAY);
-				test1.addEvent(event1);
-				test1.addEvent(event2);
-				test1.addEvent(event3);
-				timelines = new ArrayList<Timeline>();
-				timelines.add(test1);
+//				Date one = Date.valueOf("1993-09-11");
+//				Date two = Date.valueOf("1993-09-21");
+//				Date three = Date.valueOf("1993-09-12");
+//				Date four = Date.valueOf("1993-09-20");
+//				
+//				TLEvent event1 = new Atomic("one", new Category(""), one, -1, "");
+//				TLEvent event2 = new Duration("two", new Category(""), three,four, -1, "");
+//				TLEvent event3 = new Atomic("three", new Category(""), two, -1, "");
+//				Timeline test1 = new Timeline("Tester", AxisLabel.MONTHS,Color.BLUE,Color.GRAY);
+//				test1.addEvent(event1);
+//				test1.addEvent(event2);
+//				test1.addEvent(event3);
+//				timelines = new ArrayList<Timeline>();
+//				timelines.add(test1);
 
-				intent.putExtra("TIMELINE", test1);
-				
+				intent.putExtra("TIMELINE", timelines.get(position));
 				startActivity(intent);
 			}
 		});
