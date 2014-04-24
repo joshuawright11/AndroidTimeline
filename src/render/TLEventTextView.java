@@ -2,6 +2,7 @@ package render;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -109,7 +110,7 @@ public abstract class TLEventTextView extends TextView {
 		Log.d(VIEW_LOG_TAG, event.getName() + " added with a left margin of " + xPos + " and a top margin of " + yPos);
 		setLayoutParams(params);
 		setText(event.getName());
-		setBackgroundColor(event.getCategory().getColor());
+		setBackgroundColor(Color.BLUE);
 		setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 		uniqueDesign();
 	}

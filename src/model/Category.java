@@ -17,7 +17,7 @@ import android.graphics.Color;
  */
 public class Category implements Serializable{
 	private String name;
-	private int catColor; // GUI Color of the category.
+	private String catColor; // GUI Color of the category.
 	private int id;
 
 	/**
@@ -29,7 +29,7 @@ public class Category implements Serializable{
 	public Category(String name) {
 		this.id = -1;
 		this.name = name;
-		catColor = Color.parseColor("#0000FF");
+		catColor = "0x000000ff";
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class Category implements Serializable{
 	 * @param catColor
 	 *            The color of the category.
 	 */
-	public Category(String name, int catColor) {
+	public Category(String name, String catColor) {
 		this.id = -1;
 		this.name = name;
 		this.catColor = catColor;
@@ -60,7 +60,7 @@ public class Category implements Serializable{
 	 * 
 	 * @return The color.
 	 */
-	public int getColor() {
+	public String getColor() {
 		return catColor;
 	}
 
@@ -80,7 +80,7 @@ public class Category implements Serializable{
 	 * @param catColor
 	 *            The color to use.
 	 */
-	public void setColor(int catColor) {
+	public void setColor(String catColor) {
 		this.catColor = catColor;
 	}
 

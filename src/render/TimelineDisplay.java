@@ -75,11 +75,6 @@ public class TimelineDisplay extends RelativeLayout{
 	private AxisLabel axisLabel;
 	
 	/**
-	 * The color of the Timeline. Default Color is Blue.
-	 */
-	private int color = Color.BLUE;
-	
-	/**
 	 * Use in rendering with an AxisLabel of months
 	 */
 	private final String[] months = { "Jan", "Feb", "March", "April", "May",
@@ -134,7 +129,6 @@ public class TimelineDisplay extends RelativeLayout{
 			this.axisLabel = timeline.getAxisLabel();
 		else
 			this.axisLabel = AxisLabel.YEARS;
-		this.color = timeline.getColorTL();
 		atomics = new ArrayList<Atomic>();
 		durations = new ArrayList<Duration>();
 		eventLabels = new ArrayList<TLEventTextView>();

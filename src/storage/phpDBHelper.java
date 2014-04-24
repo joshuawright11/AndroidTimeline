@@ -92,7 +92,7 @@ public class phpDBHelper {
 			jobj = (JSONObject)it.next();
 			tid = (String) jobj.get("tid");
 			tl = new Timeline((String) jobj.get("name"), AxisLabel.valueOf((String) jobj.get("axis_label")), 
-					Color.parseColor(((String)jobj.get("axis_color")).replaceFirst("^0x", "#")), Color.parseColor(((String) jobj.get("background_color")).replaceFirst("^0x", "#")));
+					(String)jobj.get("axis_color"), (String) jobj.get("background_color"));
 			tlMap.put((String) jobj.get("tid"), tl);
 			tlNameIdMap.put((String) jobj.get("tid"),(String) jobj.get("name"));
 		}while(it.hasNext());
@@ -103,7 +103,7 @@ public class phpDBHelper {
 			jobj2 = (JSONObject)it2.next();
 			TLEvent event;
 			Category cat = new Category((String)jobj2.get("category"));
-			cat.setColor(0xffffffff);
+			cat.setColor("0x000000ff");
 			catMap.put(cat,(String)jobj2.get("tid"));
 			if (jobj2.get("type").equals("duration") ) {
 				event = new Duration((String)jobj2.get("eventName"),  cat,

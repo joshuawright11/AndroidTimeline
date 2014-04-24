@@ -176,15 +176,16 @@ public class AndroidDBHelper implements DBHelperAPI {
 						}
 						setEventID(event, timelineNames.get(j));
 						events.add(event);
+						results.moveToNext();
 					}
 				}
 				Timeline timeline = new Timeline(timelineNames.get(j),
-						events.toArray(new TLEvent[events.size()]), Color.BLUE,
-						Color.GRAY, AxisLabel.YEARS);
+						events.toArray(new TLEvent[events.size()]), "0x000000ff",
+						"0x000000ff", AxisLabel.YEARS);
 				setTimelineID(timeline);
 				AxisLabel label = AxisLabel.values()[getAxisLabel(timeline)];
-				int backgroundColor = getBackgroundColor(timeline.getID());
-				int axisColor = getAxisColor(timeline.getID());
+				String backgroundColor = getBackgroundColor(timeline.getID());
+				String axisColor = getAxisColor(timeline.getID());
 				timeline.setAxisLabel(label);
 				timeline.setColorBG(backgroundColor);
 				timeline.setColorTL(axisColor);
@@ -330,8 +331,8 @@ public class AndroidDBHelper implements DBHelperAPI {
 		SQLiteStatement stmt = database.compileStatement(INSERT_LABEL);
 		stmt.bindString(1, timeline.getName());
 		stmt.bindString(2, timeline.getAxisLabel().name());
-		stmt.bindString(3, "0x"+(Long.toHexString(timeline.getColorBG())));
-		stmt.bindString(4, "0x"+(Long.toHexString(timeline.getColorTL())));
+		stmt.bindString(3, timeline.getColorBG());
+		stmt.bindString(4, timeline.getColorTL());
 		stmt.executeInsert();
 	}
 
@@ -442,14 +443,13 @@ public class AndroidDBHelper implements DBHelperAPI {
 	 * @throws SQLException
 	 *             because there are databases
 	 */
-	private int getAxisColor(int id) throws SQLException {
+	private String getAxisColor(int id) throws SQLException {
 		String SELECT_LABEL = "SELECT axisColor FROM timeline_info WHERE _id = ?;";
 		
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
 		c.moveToFirst();
 		String color = c.getString(0);
-		int toReturn = Color.BLUE;
-		return toReturn;
+		return color;
 	}
 
 	/**
@@ -462,15 +462,15 @@ public class AndroidDBHelper implements DBHelperAPI {
 	 * @throws SQLException
 	 *             because there are databases
 	 */
-	private int getBackgroundColor(int id) throws SQLException {
+	private String getBackgroundColor(int id) throws SQLException {
 		String SELECT_LABEL = "SELECT backgroundColor FROM timeline_info WHERE _id = ?;";
 		Cursor c = database.rawQuery(SELECT_LABEL, new String[] {id+""}); 
 		c.moveToFirst();
 		String color = c.getString(0);
-		String colorFormat = "0x"+(Integer.toHexString(Integer.parseInt(color)));
-		Log.d("getBackgroundColor", colorFormat);
-		int toReturn = Color.parseColor(colorFormat.replaceFirst("^0x", "#")); // Hex to Android color
-		return toReturn;
+//		String colorFormat = "0x"+(Integer.toHexString(Integer.parseInt(color)));
+//		Log.d("getBackgroundColor", colorFormat);
+//		int toReturn = Color.BLUE; // Hex to Android color
+		return color;
 	}
 
 	@Override
@@ -652,8 +652,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 				int id = c.getInt(0);
 				String name = c.getString(c.getColumnIndex("categoryName"));
 				String timelineName = c.getString(c.getColumnIndex("timelineName"));
-				int color = Color.BLUE; // Hex to Android color
-				Category category = new Category(name, color);
+				Category category = new Category(name, "0x000000ff");
 				category.setID(id);
 				categories.put(category, timelineName);
 			}
