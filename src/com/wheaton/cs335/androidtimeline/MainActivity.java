@@ -41,10 +41,9 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
 		
-		startActivity(new Intent(this, LoginActivity.class));
-
 		database = new AndroidDBHelper(getBaseContext());
 		
 		timelines = new ArrayList<Timeline>(Arrays.asList(database.getTimelines()));
@@ -52,10 +51,6 @@ public class MainActivity extends Activity {
 
 		for(Timeline t : timelines)
 			timelineNames.add(t.getName());
-		
-		// code to sync data to external database
-		// must call when stuff is closed or added
-		// phpPushHelper.send(ArrayListOfTimelines);
 		
 		timelineList = (ListView) findViewById(R.id.timelineListView);
 		adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, timelineNames);
