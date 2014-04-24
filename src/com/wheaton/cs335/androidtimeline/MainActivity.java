@@ -1,19 +1,10 @@
 package com.wheaton.cs335.androidtimeline;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import storage.AndroidDBHelper;
-import storage.DBOpenHelper;
-import storage.phpDBHelper;
-import storage.phpPushHelper;
-import model.Atomic;
-import model.Category;
-import model.Duration;
-import model.TLEvent;
 import model.Timeline;
-import model.Timeline.AxisLabel;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 
 public class MainActivity extends Activity {
 	

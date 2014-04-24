@@ -103,9 +103,10 @@ public class phpDBHelper {
 			jobj2 = (JSONObject)it2.next();
 			TLEvent event;
 			Category cat = new Category((String)jobj2.get("category"));
-			cat.setColor("0x000000ff");
+			cat.setColor("0x0000ffff");
 			catMap.put(cat,(String)jobj2.get("tid"));
 			if (jobj2.get("type").equals("duration") ) {
+				Log.d("duration", (String) jobj2.get("endDate"));
 				event = new Duration((String)jobj2.get("eventName"),  cat,
 						Date.valueOf((String) jobj2.get("startDate")), Date.valueOf((String) jobj2.get("endDate")), Integer.parseInt((String) jobj2.get("iconid")), (String) jobj2.get("description"));
 			} else {

@@ -131,7 +131,7 @@ public class AddCategory extends Activity{
 		green = gsb.getProgress();
 		blue = bsb.getProgress();
 		
-		Category cat = new Category(((TextView) findViewById(R.id.categoryName)).getText().toString(),"0x000000ff");
+		Category cat = new Category(((TextView) findViewById(R.id.categoryName)).getText().toString(),"0x0000ffff");
 		Timeline selected = timelines.get(timeSelector.getSelectedItemPosition());
 		selected.addCategory(cat);
 	    new AsyncTask<Integer, Void, Void>(){

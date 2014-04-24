@@ -180,8 +180,8 @@ public class AndroidDBHelper implements DBHelperAPI {
 					}
 				}
 				Timeline timeline = new Timeline(timelineNames.get(j),
-						events.toArray(new TLEvent[events.size()]), "0x000000ff",
-						"0x000000ff", AxisLabel.YEARS);
+						events.toArray(new TLEvent[events.size()]), "0x0000ffff",
+						"0x0000ffff", AxisLabel.YEARS);
 				setTimelineID(timeline);
 				AxisLabel label = AxisLabel.values()[getAxisLabel(timeline)];
 				String backgroundColor = getBackgroundColor(timeline.getID());
@@ -652,7 +652,7 @@ public class AndroidDBHelper implements DBHelperAPI {
 				int id = c.getInt(0);
 				String name = c.getString(c.getColumnIndex("categoryName"));
 				String timelineName = c.getString(c.getColumnIndex("timelineName"));
-				Category category = new Category(name, "0x000000ff");
+				Category category = new Category(name, "0x0000ffff");
 				category.setID(id);
 				categories.put(category, timelineName);
 			}

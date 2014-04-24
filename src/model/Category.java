@@ -29,7 +29,7 @@ public class Category implements Serializable{
 	public Category(String name) {
 		this.id = -1;
 		this.name = name;
-		catColor = "0x000000ff";
+		catColor = "0x0000ffff";
 	}
 
 	/**

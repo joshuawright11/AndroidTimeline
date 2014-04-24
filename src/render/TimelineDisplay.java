@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.RelativeLayout;
@@ -132,7 +133,6 @@ public class TimelineDisplay extends RelativeLayout{
 		atomics = new ArrayList<Atomic>();
 		durations = new ArrayList<Duration>();
 		eventLabels = new ArrayList<TLEventTextView>();
-		//test();
 		if (!initRange()) {
 			return;
 		}
@@ -153,6 +153,7 @@ public class TimelineDisplay extends RelativeLayout{
 		unitWidth = 150;
 		pushDown = 60; // to allow 60 pixels for title
 		for (TLEvent event : timeline.getEvents()) {
+			Log.d(VIEW_LOG_TAG, "MaxTime is " + new Date(maxTime).toString());
 			if (event instanceof Duration) {
 				durations.add((Duration) event);
 				long start = ((Duration) event).getStartDate().getTime();
@@ -162,6 +163,7 @@ public class TimelineDisplay extends RelativeLayout{
 				}
 				if (end > maxTime) {
 					maxTime = end;
+					Log.d(VIEW_LOG_TAG, "MaxTime is: " + new Date(maxTime).toString());
 				}
 			} else if (event instanceof Atomic) {
 				atomics.add((Atomic) event);
@@ -195,11 +197,13 @@ public class TimelineDisplay extends RelativeLayout{
 					.getTime();
 			maxTime = ((Duration) timeline.getEvents()[0]).getEndDate()
 					.getTime();
+			Log.d(VIEW_LOG_TAG, "MaxTime is now: " + new Date(maxTime).toString());
 		} else {
 			minTime = ((Atomic) timeline.getEvents()[0]).getStartDate()
 					.getTime();
 			maxTime = ((Atomic) timeline.getEvents()[0]).getStartDate()
 					.getTime();
+			Log.d(VIEW_LOG_TAG, "MaxTime is now: " + new Date(maxTime).toString());
 		}
 		return true;
 	}
@@ -372,6 +376,8 @@ public class TimelineDisplay extends RelativeLayout{
 		startCalendar.setTime(getFirstDate());
 		Calendar endCalendar = new GregorianCalendar();
 		endCalendar.setTime(new Date(maxTime));
+		
+		Log.d(VIEW_LOG_TAG, getFirstDate().toString() + "is start end is " + new Date(maxTime).toString());
 
 		int diffYear = endCalendar.get(Calendar.YEAR)
 				- startCalendar.get(Calendar.YEAR);
